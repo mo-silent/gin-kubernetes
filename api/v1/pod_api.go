@@ -20,11 +20,11 @@ type PodApi struct{}
 // @Tags Pod
 // @Summary 创建 Pod
 // @Produce application/json
-// @Param data body request.PodReques true "Pod simple configuration"
+// @Param data body request.PodRequest true "Pod simple configuration"
 // @Success 200 {object} response.CommonResponse
 // @Router /pod/createPod [post]
 func (p *PodApi) CreatePod(c *gin.Context) {
-	var podReq request.PodReques
+	var podReq request.PodRequest
 	_ = c.ShouldBindJSON(&podReq)
 	// fmt.Println(podReq)
 	pod := &corev1.Pod{
