@@ -48,5 +48,8 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	// server start to listen
-	s.ListenAndServe()
+	err := s.ListenAndServe()
+	if err != nil {
+		return
+	}
 }
