@@ -11,11 +11,12 @@ import (
 // Return *gin.Engine
 func InitRouters() *gin.Engine {
 	Router := gin.Default()
-	podRouter := router.RouterGroupEnter.PodRouter
+	k8sRouter := router.RouterGroupEnter
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	PrivateGroup := Router.Group("")
 	{
-		podRouter.InitPodRouter(PrivateGroup) // 注册 pod 路由
+		k8sRouter.InitPodRouter(PrivateGroup)        // 注册 pod 路由
+		k8sRouter.InitDeploymentRouter(PrivateGroup) // 注册 deployment 路由
 	}
 
 	return Router

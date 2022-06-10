@@ -16,6 +16,36 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/pod/createDeployment": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "创建 Deployment",
+                "parameters": [
+                    {
+                        "description": "Deployment simple configuration",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.DeploymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/pod/createPod": {
             "post": {
                 "produces": [
@@ -24,7 +54,7 @@ const docTemplate = `{
                 "tags": [
                     "Pod"
                 ],
-                "summary": "获取单个 Pod 信息",
+                "summary": "创建 Pod",
                 "parameters": [
                     {
                         "description": "Pod simple configuration",
@@ -32,8 +62,43 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PodReques"
+                            "$ref": "#/definitions/request.PodRequest"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/deleteDeployment": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "删除单个 Deployment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "deployment 名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -81,53 +146,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/getAllPod": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Pod"
-                ],
-                "summary": "获取所有 Pod 信息",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pod/getNamespacePod/{namespace}": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Pod"
-                ],
-                "summary": "获取单个命名空间中所有的  Pod 信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "命名空间",
-                        "name": "namespace",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/pod/getPod": {
             "post": {
                 "produces": [
@@ -162,10 +180,69 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/pod/listAllPod": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "获取所有 Pod 信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/listNamespacePod/{namespace}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "获取单个命名空间中所有的  Pod 信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "request.PodReques": {
+        "request.DeploymentRequest": {
+            "type": "object",
+            "properties": {
+                "namespace": {
+                    "type": "string"
+                },
+                "object": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "request.PodRequest": {
             "type": "object",
             "properties": {
                 "containerName": {
@@ -182,6 +259,9 @@ const docTemplate = `{
                     "additionalProperties": {
                         "type": "string"
                     }
+                },
+                "namespace": {
+                    "type": "string"
                 },
                 "podName": {
                     "type": "string"
