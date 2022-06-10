@@ -45,16 +45,16 @@ func (p *PodApi) ListAllPod(c *gin.Context) {
 // @Router /pod/listNamespacePod/{namespace} [get]
 func (p *PodApi) ListNamespacePod(c *gin.Context) {
 	// get namespace
-	namespcae := c.Param("namespace")
-	if namespcae == "{namespace}" || namespcae == "" ||
-		strings.TrimSpace(namespcae) == "" {
-		namespcae = "default"
+	namespace := c.Param("namespace")
+	if namespace == "{namespace}" || namespace == "" ||
+		strings.TrimSpace(namespace) == "" {
+		namespace = "default"
 	}
 	// list pod
-	pods, err := global.K8SCLIENT.CoreV1().Pods(namespcae).List(context.TODO(), metav1.ListOptions{})
+	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "list namespace: " + namespcae + " pod fail!",
+			Message: "list namespace: " + namespace + " pod fail!",
 		})
 		// panic(err.Error())
 	}
@@ -73,14 +73,14 @@ func (p *PodApi) ListNamespacePod(c *gin.Context) {
 // @Router /pod/getPod [post]
 func (p *PodApi) GetPod(c *gin.Context) {
 	// get namespace
-	namespcae := c.DefaultQuery("namespace", "default")
+	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
-	fmt.Println(namespcae, name)
-	if namespcae == "" || strings.TrimSpace(namespcae) == "" {
-		namespcae = "default"
+	fmt.Println(namespace, name)
+	if namespace == "" || strings.TrimSpace(namespace) == "" {
+		namespace = "default"
 	}
 	// list one pod
-	pods, err := global.K8SCLIENT.CoreV1().Pods(namespcae).Get(context.TODO(), name, metav1.GetOptions{})
+	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "get pod fail!",
@@ -160,10 +160,10 @@ func (p *PodApi) CreatePod(c *gin.Context) {
 // @Router /pod/deletePod [post]
 func (p *PodApi) DeletePod(c *gin.Context) {
 	// 获取命名空间和 pod 名称
-	namespcae := c.DefaultQuery("namespace", "default")
+	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
 	// 获取 pod 接口
-	podClient := global.K8SCLIENT.CoreV1().Pods(namespcae)
+	podClient := global.K8SCLIENT.CoreV1().Pods(namespace)
 	// 删除 Pod
 	err := podClient.Delete(context.TODO(), name, metav1.DeleteOptions{})
 	if err != nil {
