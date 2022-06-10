@@ -50,7 +50,7 @@ func (p *PodApi) CreatePod(c *gin.Context) {
 		},
 	}
 	// 获取 pod 接口
-	podClient := global.K8SCLIENT.CoreV1().Pods("default")
+	podClient := global.K8SCLIENT.CoreV1().Pods(podReq.Namespace)
 	// 创建 Pod
 	_, err := podClient.Create(context.TODO(), pod, metav1.CreateOptions{})
 	if err != nil {
