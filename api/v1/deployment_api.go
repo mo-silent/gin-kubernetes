@@ -26,7 +26,7 @@ var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Re
 // @Success 200 {object} response.CommonResponse
 // @Router /pod/createDeployment [post]
 func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
-	// 获取 depolyment 信息
+	// 获取 deployment 信息
 	var deployReq request.DeploymentRequest
 	_ = c.ShouldBindJSON(&deployReq)
 	fmt.Println(deployReq)

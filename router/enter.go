@@ -1,8 +1,8 @@
 package router
 
-type K8SRouterGroup struct {
+type KubeRouterGroup struct {
 	PodRouter
 	DeploymentRouter
 }
 
-var KubeRouterGroupEnter = new(K8SRouterGroup)
+var KubeRouterGroupEnter = new(KubeRouterGroup)
