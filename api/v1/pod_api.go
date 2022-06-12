@@ -17,6 +17,7 @@ import (
 
 type PodApi struct{}
 
+// CreatePod create pod
 // @Tags Pod
 // @Summary 创建 Pod
 // @Produce application/json
@@ -75,6 +76,7 @@ func (p *PodApi) CreatePod(c *gin.Context) {
 
 }
 
+// DeletePod
 // @Tags Pod
 // @Summary 删除单个 Pod
 // @Produce application/json
@@ -103,6 +105,7 @@ func (p *PodApi) DeletePod(c *gin.Context) {
 
 }
 
+// GetPod
 // @Tags Pod
 // @Summary 获取单个 Pod 信息
 // @Produce application/json
@@ -132,6 +135,7 @@ func (p *PodApi) GetPod(c *gin.Context) {
 	})
 }
 
+// ListNamespacePod
 // @Tags Pod
 // @Summary 获取单个命名空间中所有的  Pod 信息
 // @Produce application/json
@@ -159,6 +163,7 @@ func (p *PodApi) ListNamespacePod(c *gin.Context) {
 	})
 }
 
+// ListAllPod
 // @Tags Pod
 // @Summary 获取所有 Pod 信息
 // @Produce application/json

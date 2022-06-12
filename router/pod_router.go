@@ -7,7 +7,7 @@ import (
 
 type PodRouter struct{}
 
-// InitRouters 初始化 pod 路由
+// InitPodRouter 初始化 pod 路由
 func (p *PodRouter) InitPodRouter(Router *gin.RouterGroup) {
 	podGroup := Router.Group("pod")
 	podApi := v1.ApiGroupEnter.PodApi

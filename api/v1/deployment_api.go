@@ -18,6 +18,7 @@ type DeploymentApi struct{}
 
 var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
 
+// CreateDeployment
 // @Tags Deployment
 // @Summary 创建 Deployment
 // @Produce application/json
@@ -81,6 +82,7 @@ func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
 	})
 }
 
+// DeleteDeployment
 // @Tags Deployment
 // @Summary 删除单个 Deployment
 // @Produce application/json

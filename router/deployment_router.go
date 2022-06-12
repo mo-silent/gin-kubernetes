@@ -7,7 +7,7 @@ import (
 
 type DeploymentRouter struct{}
 
-// InitRouters 初始化 deployment 路由
+// InitDeploymentRouter 初始化 deployment 路由
 func (deploy *DeploymentRouter) InitDeploymentRouter(Router *gin.RouterGroup) {
 	deploymentGroup := Router.Group("deployment")
 	deploymentApi := v1.ApiGroupEnter.DeploymentApi

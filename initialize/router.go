@@ -11,7 +11,7 @@ import (
 // Return *gin.Engine
 func InitRouters() *gin.Engine {
 	Router := gin.Default()
-	k8sRouter := router.RouterGroupEnter
+	k8sRouter := router.KubeRouterGroupEnter
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	PrivateGroup := Router.Group("")
 	{
