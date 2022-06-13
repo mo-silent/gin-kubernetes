@@ -16,6 +16,6 @@ func (p *PodRouter) InitPodRouter(Router *gin.RouterGroup) {
 		podGroup.GET("listAllPod", podApi.ListAllPod)                        // 获取所有 pod 信息
 		podGroup.POST("getPod", podApi.GetPod)                               // 获取单个 pod 信息
 		podGroup.POST("createPod", podApi.CreatePod)                         // 创建 pod
-		podGroup.POST("deletePod", podApi.DeletePod)                         // 删除 pod
+		podGroup.DELETE("deletePod", podApi.DeletePod)                       // 删除 pod
 	}
 }

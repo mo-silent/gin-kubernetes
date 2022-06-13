@@ -83,7 +83,7 @@ func (p *PodApi) CreatePod(c *gin.Context) {
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/deletePod [post]
+// @Router /pod/deletePod [delete]
 func (p *PodApi) DeletePod(c *gin.Context) {
 	// 获取命名空间和 pod 名称
 	namespace := c.DefaultQuery("namespace", "default")
