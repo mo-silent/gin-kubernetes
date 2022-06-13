@@ -1,8 +1,11 @@
 package v1
 
-type ApiGroup struct {
-	PodApi
-	DeploymentApi
+import (
+	"gitee.com/MoGD/gin-kubernetes/api/v1/k8s"
+)
+
+type UnifiedApiGroup struct {
+	K8SApiGroup k8s.K8SApiGroup
 }
 
-var ApiGroupEnter = new(ApiGroup)
+var UnifiedApiGroupEnter = new(UnifiedApiGroup)
