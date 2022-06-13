@@ -24,6 +24,17 @@ definitions:
       podName:
         type: string
     type: object
+  request.UpdateMessage:
+    properties:
+      name:
+        type: string
+      namespace:
+        type: string
+      newImage:
+        type: string
+      replicasNumber:
+        type: integer
+    type: object
   response.CommonResponse:
     properties:
       response message: {}
@@ -73,7 +84,7 @@ paths:
       tags:
       - Pod
   /pod/deleteDeployment:
-    post:
+    delete:
       parameters:
       - default: default
         description: 命名空间
@@ -96,7 +107,7 @@ paths:
       tags:
       - Deployment
   /pod/deletePod:
-    post:
+    delete:
       parameters:
       - default: default
         description: 命名空间
@@ -118,6 +129,29 @@ paths:
       summary: 删除单个 Pod
       tags:
       - Pod
+  /pod/getDeployment:
+    get:
+      parameters:
+      - default: default
+        description: 命名空间
+        in: query
+        name: namespace
+        type: string
+      - description: deployment 名称
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 获取单个 Deployment
+      tags:
+      - Deployment
   /pod/getPod:
     post:
       parameters:
@@ -153,6 +187,24 @@ paths:
       summary: 获取所有 Pod 信息
       tags:
       - Pod
+  /pod/listDeployment:
+    get:
+      parameters:
+      - default: default
+        description: 命名空间
+        in: query
+        name: namespace
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 获取命名空间下的所有 Deployment
+      tags:
+      - Deployment
   /pod/listNamespacePod/{namespace}:
     get:
       parameters:
@@ -171,6 +223,25 @@ paths:
       summary: 获取单个命名空间中所有的  Pod 信息
       tags:
       - Pod
+  /pod/updateDeployment:
+    put:
+      parameters:
+      - description: Deployment configuration information that needs to be changed
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateMessage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 更新 Deployment 的镜像版本和副本集
+      tags:
+      - Deployment
 securityDefinitions:
   ApiKeyAuth:
     in: header

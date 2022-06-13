@@ -12,6 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/util/retry"
 )
 
 type DeploymentApi struct{}
@@ -89,7 +90,7 @@ func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "deployment 名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/deleteDeployment [post]
+// @Router /pod/deleteDeployment [delete]
 func (deploy *DeploymentApi) DeleteDeployment(c *gin.Context) {
 	// 获取命名空间和 pod 名称
 	namespace := c.DefaultQuery("namespace", "default")
@@ -100,13 +101,101 @@ func (deploy *DeploymentApi) DeleteDeployment(c *gin.Context) {
 		PropagationPolicy: &deletePolicy,
 	}
 
-	if err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions); err != nil {
+	// err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
+	if err := global.K8SCLIENT.AppsV1().Deployments(namespace).Delete(context.TODO(), name, deleteOptions); err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("delete namespace %v deployment %v fail!", namespace, name),
 		})
 	}
+
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: fmt.Sprintf("delete deployment %v success", name),
+	})
+
+}
+
+// UpdateDeployment
+// @Tags Deployment
+// @Summary 更新 Deployment 的镜像版本和副本集
+// @Produce application/json
+// @Param data body request.UpdateMessage true "Deployment configuration information that needs to be changed"
+// @Success 200 {object} response.CommonResponse
+// @Router /pod/updateDeployment [put]
+func (deploy *DeploymentApi) UpdateDeployment(c *gin.Context) {
+	// 获取更新信息
+	var updateMessage request.UpdateMessage
+	_ = c.ShouldBindJSON(&updateMessage)
+	deploymentsClient := global.K8SCLIENT.AppsV1().Deployments(updateMessage.Namespace)
+	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		// Retrieve the latest version of Deployment before attempting update
+		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
+		result, getErr := deploymentsClient.Get(context.TODO(), updateMessage.Name, metav1.GetOptions{})
+		if getErr != nil {
+			panic(fmt.Errorf("failed to get latest version of Deployment: %v", getErr))
+		}
+
+		result.Spec.Replicas = &updateMessage.ReplicasNumber                   // reduce replica count
+		result.Spec.Template.Spec.Containers[0].Image = updateMessage.NewImage // change nginx version
+		_, updateErr := deploymentsClient.Update(context.TODO(), result, metav1.UpdateOptions{})
+		return updateErr
+	})
+	if retryErr != nil {
+		c.JSON(http.StatusForbidden, response.CommonResponse{
+			Message: fmt.Sprintf("update namespace %v deployment %v fail!", updateMessage.Namespace, updateMessage.Name),
+		})
+	}
+	c.JSON(http.StatusOK, response.CommonResponse{
+		Message: fmt.Sprintf("Updated deployment %v...", updateMessage.Name),
+	})
+
+}
+
+// GetDeployment
+// @Tags Deployment
+// @Summary 获取单个 Deployment
+// @Produce application/json
+// @Param   namespace  query  string  false "命名空间" default(default)
+// @Param   name    query  string  true "deployment 名称"
+// @Success 200 {object} response.CommonResponse
+// @Router /pod/getDeployment [get]
+func (deploy *DeploymentApi) GetDeployment(c *gin.Context) {
+	// 获取命名空间和 pod 名称
+	namespace := c.DefaultQuery("namespace", "default")
+	name := c.Query("name")
+
+	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+	if err != nil {
+		c.JSON(http.StatusForbidden, response.CommonResponse{
+			Message: fmt.Sprintf("get namespace %v deployment %v fail!", namespace, name),
+		})
+	}
+
+	c.JSON(http.StatusOK, response.CommonResponse{
+		Message: fmt.Sprintf("get deployment %v, value %v", name, result),
+	})
+
+}
+
+// ListDeployment
+// @Tags Deployment
+// @Summary 获取命名空间下的所有 Deployment
+// @Produce application/json
+// @Param   namespace  query  string  false "命名空间" default(default)
+// @Success 200 {object} response.CommonResponse
+// @Router /pod/listDeployment [get]
+func (deploy *DeploymentApi) ListDeployment(c *gin.Context) {
+	// 获取命名空间
+	namespace := c.DefaultQuery("namespace", "default")
+
+	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		c.JSON(http.StatusForbidden, response.CommonResponse{
+			Message: fmt.Sprintf("list namespace %v deployment fail!", namespace),
+		})
+	}
+
+	c.JSON(http.StatusOK, response.CommonResponse{
+		Message: result,
 	})
 
 }

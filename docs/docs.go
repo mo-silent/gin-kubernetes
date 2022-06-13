@@ -77,7 +77,7 @@ const docTemplate = `{
             }
         },
         "/pod/deleteDeployment": {
-            "post": {
+            "delete": {
                 "produces": [
                     "application/json"
                 ],
@@ -112,7 +112,7 @@ const docTemplate = `{
             }
         },
         "/pod/deletePod": {
-            "post": {
+            "delete": {
                 "produces": [
                     "application/json"
                 ],
@@ -131,6 +131,41 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "pod名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/getDeployment": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "获取单个 Deployment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "deployment 名称",
                         "name": "name",
                         "in": "query",
                         "required": true
@@ -200,6 +235,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/pod/listDeployment": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "获取命名空间下的所有 Deployment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/pod/listNamespacePod/{namespace}": {
             "get": {
                 "produces": [
@@ -216,6 +279,36 @@ const docTemplate = `{
                         "description": "命名空间",
                         "name": "namespace",
                         "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/updateDeployment": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "更新 Deployment 的镜像版本和副本集",
+                "parameters": [
+                    {
+                        "description": "Deployment configuration information that needs to be changed",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateMessage"
+                        }
                     }
                 ],
                 "responses": {
@@ -265,6 +358,23 @@ const docTemplate = `{
                 },
                 "podName": {
                     "type": "string"
+                }
+            }
+        },
+        "request.UpdateMessage": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "newImage": {
+                    "type": "string"
+                },
+                "replicasNumber": {
+                    "type": "integer"
                 }
             }
         },
