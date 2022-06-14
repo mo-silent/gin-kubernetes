@@ -29,3 +29,5 @@ Go 语言的 gin 框架开发的一个 K8S CMDB 管理平台
     ├── timer
     └── upload
 ```
+
+`error: can't parse JSON.  Raw result:`
