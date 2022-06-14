@@ -1,4 +1,15 @@
 definitions:
+  request.DeployUpdateMessage:
+    properties:
+      name:
+        type: string
+      namespace:
+        type: string
+      newImage:
+        type: string
+      replicasNumber:
+        type: integer
+    type: object
   request.DeploymentRequest:
     properties:
       namespace:
@@ -24,7 +35,7 @@ definitions:
       podName:
         type: string
     type: object
-  request.UpdateMessage:
+  request.PodUpdateMessage:
     properties:
       name:
         type: string
@@ -32,8 +43,6 @@ definitions:
         type: string
       newImage:
         type: string
-      replicasNumber:
-        type: integer
     type: object
   response.CommonResponse:
     properties:
@@ -136,7 +145,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UpdateMessage'
+          $ref: '#/definitions/request.DeployUpdateMessage'
       produces:
       - application/json
       responses:
@@ -232,6 +241,13 @@ paths:
       - Pod
   /pod/update:
     put:
+      parameters:
+      - description: Pod configuration information that needs to be changed
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PodUpdateMessage'
       produces:
       - application/json
       responses:

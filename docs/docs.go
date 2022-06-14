@@ -160,7 +160,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.UpdateMessage"
+                            "$ref": "#/definitions/request.DeployUpdateMessage"
                         }
                     }
                 ],
@@ -311,6 +311,17 @@ const docTemplate = `{
                     "Pod"
                 ],
                 "summary": "更新 Pod",
+                "parameters": [
+                    {
+                        "description": "Pod configuration information that needs to be changed",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PodUpdateMessage"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -323,6 +334,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.DeployUpdateMessage": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "namespace": {
+                    "type": "string"
+                },
+                "newImage": {
+                    "type": "string"
+                },
+                "replicasNumber": {
+                    "type": "integer"
+                }
+            }
+        },
         "request.DeploymentRequest": {
             "type": "object",
             "properties": {
@@ -361,7 +389,7 @@ const docTemplate = `{
                 }
             }
         },
-        "request.UpdateMessage": {
+        "request.PodUpdateMessage": {
             "type": "object",
             "properties": {
                 "name": {
@@ -372,9 +400,6 @@ const docTemplate = `{
                 },
                 "newImage": {
                     "type": "string"
-                },
-                "replicasNumber": {
-                    "type": "integer"
                 }
             }
         },

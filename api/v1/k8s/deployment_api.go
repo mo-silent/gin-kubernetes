@@ -133,12 +133,12 @@ func (deploy *DeploymentApi) Delete(c *gin.Context) {
 // @Tags Deployment
 // @Summary 更新 Deployment 的镜像版本和副本集
 // @Produce application/json
-// @Param data body request.UpdateMessage true "Deployment configuration information that needs to be changed"
+// @Param data body request.DeployUpdateMessage true "Deployment configuration information that needs to be changed"
 // @Success 200 {object} response.CommonResponse
 // @Router /deployment/update [put]
 func (deploy *DeploymentApi) Update(c *gin.Context) {
 	// 获取更新信息
-	var updateMessage request.UpdateMessage
+	var updateMessage request.DeployUpdateMessage
 	_ = c.ShouldBindJSON(&updateMessage)
 	deploymentsClient := global.K8SCLIENT.AppsV1().Deployments(updateMessage.Namespace)
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
