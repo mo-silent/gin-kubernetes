@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/pod/createDeployment": {
+        "/deployment/create": {
             "post": {
                 "produces": [
                     "application/json"
@@ -46,37 +46,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/createPod": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Pod"
-                ],
-                "summary": "创建 Pod",
-                "parameters": [
-                    {
-                        "description": "Pod simple configuration",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PodRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pod/deleteDeployment": {
+        "/deployment/delete": {
             "delete": {
                 "produces": [
                     "application/json"
@@ -111,42 +81,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/deletePod": {
-            "delete": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Pod"
-                ],
-                "summary": "删除单个 Pod",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "命名空间",
-                        "name": "namespace",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "pod名称",
-                        "name": "name",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pod/getDeployment": {
+        "/deployment/get": {
             "get": {
                 "produces": [
                     "application/json"
@@ -181,8 +116,131 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/getPod": {
+        "/deployment/list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "获取命名空间下的所有 Deployment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/deployment/update": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Deployment"
+                ],
+                "summary": "更新 Deployment 的镜像版本和副本集",
+                "parameters": [
+                    {
+                        "description": "Deployment configuration information that needs to be changed",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UpdateMessage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/create": {
             "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "创建 Pod",
+                "parameters": [
+                    {
+                        "description": "Pod simple configuration",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PodRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/delete": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pod"
+                ],
+                "summary": "删除单个 Pod",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "default",
+                        "description": "命名空间",
+                        "name": "namespace",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "pod名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pod/get": {
+            "get": {
                 "produces": [
                     "application/json"
                 ],
@@ -216,7 +274,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/listAllPod": {
+        "/pod/list": {
             "get": {
                 "produces": [
                     "application/json"
@@ -224,26 +282,7 @@ const docTemplate = `{
                 "tags": [
                     "Pod"
                 ],
-                "summary": "获取所有 Pod 信息",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pod/listDeployment": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Deployment"
-                ],
-                "summary": "获取命名空间下的所有 Deployment",
+                "summary": "获取命名空间中所有的  Pod 信息",
                 "parameters": [
                     {
                         "type": "string",
@@ -263,54 +302,15 @@ const docTemplate = `{
                 }
             }
         },
-        "/pod/listNamespacePod/{namespace}": {
-            "get": {
+        "/pod/update": {
+            "put": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Pod"
                 ],
-                "summary": "获取单个命名空间中所有的  Pod 信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "default",
-                        "description": "命名空间",
-                        "name": "namespace",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/pod/updateDeployment": {
-            "put": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Deployment"
-                ],
-                "summary": "更新 Deployment 的镜像版本和副本集",
-                "parameters": [
-                    {
-                        "description": "Deployment configuration information that needs to be changed",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.UpdateMessage"
-                        }
-                    }
-                ],
+                "summary": "更新 Pod",
                 "responses": {
                     "200": {
                         "description": "OK",

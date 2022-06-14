@@ -45,7 +45,7 @@ info:
   title: K8S Client API
   version: 0.0.1
 paths:
-  /pod/createDeployment:
+  /deployment/create:
     post:
       parameters:
       - description: Deployment simple configuration
@@ -64,26 +64,7 @@ paths:
       summary: 创建 Deployment
       tags:
       - Deployment
-  /pod/createPod:
-    post:
-      parameters:
-      - description: Pod simple configuration
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.PodRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.CommonResponse'
-      summary: 创建 Pod
-      tags:
-      - Pod
-  /pod/deleteDeployment:
+  /deployment/delete:
     delete:
       parameters:
       - default: default
@@ -106,30 +87,7 @@ paths:
       summary: 删除单个 Deployment
       tags:
       - Deployment
-  /pod/deletePod:
-    delete:
-      parameters:
-      - default: default
-        description: 命名空间
-        in: query
-        name: namespace
-        type: string
-      - description: pod名称
-        in: query
-        name: name
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.CommonResponse'
-      summary: 删除单个 Pod
-      tags:
-      - Pod
-  /pod/getDeployment:
+  /deployment/get:
     get:
       parameters:
       - default: default
@@ -152,8 +110,87 @@ paths:
       summary: 获取单个 Deployment
       tags:
       - Deployment
-  /pod/getPod:
+  /deployment/list:
+    get:
+      parameters:
+      - default: default
+        description: 命名空间
+        in: query
+        name: namespace
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 获取命名空间下的所有 Deployment
+      tags:
+      - Deployment
+  /deployment/update:
+    put:
+      parameters:
+      - description: Deployment configuration information that needs to be changed
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateMessage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 更新 Deployment 的镜像版本和副本集
+      tags:
+      - Deployment
+  /pod/create:
     post:
+      parameters:
+      - description: Pod simple configuration
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PodRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 创建 Pod
+      tags:
+      - Pod
+  /pod/delete:
+    delete:
+      parameters:
+      - default: default
+        description: 命名空间
+        in: query
+        name: namespace
+        type: string
+      - description: pod名称
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 删除单个 Pod
+      tags:
+      - Pod
+  /pod/get:
+    get:
       parameters:
       - default: default
         description: 命名空间
@@ -175,19 +212,7 @@ paths:
       summary: 获取单个 Pod 信息
       tags:
       - Pod
-  /pod/listAllPod:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.CommonResponse'
-      summary: 获取所有 Pod 信息
-      tags:
-      - Pod
-  /pod/listDeployment:
+  /pod/list:
     get:
       parameters:
       - default: default
@@ -202,36 +227,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.CommonResponse'
-      summary: 获取命名空间下的所有 Deployment
-      tags:
-      - Deployment
-  /pod/listNamespacePod/{namespace}:
-    get:
-      parameters:
-      - default: default
-        description: 命名空间
-        in: path
-        name: namespace
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.CommonResponse'
-      summary: 获取单个命名空间中所有的  Pod 信息
+      summary: 获取命名空间中所有的  Pod 信息
       tags:
       - Pod
-  /pod/updateDeployment:
+  /pod/update:
     put:
-      parameters:
-      - description: Deployment configuration information that needs to be changed
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.UpdateMessage'
       produces:
       - application/json
       responses:
@@ -239,9 +239,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.CommonResponse'
-      summary: 更新 Deployment 的镜像版本和副本集
+      summary: 更新 Pod
       tags:
-      - Deployment
+      - Pod
 securityDefinitions:
   ApiKeyAuth:
     in: header
