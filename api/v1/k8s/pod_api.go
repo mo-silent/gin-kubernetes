@@ -75,6 +75,7 @@ func (p *PodApi) Create(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "create pod fail!",
 		})
+		return
 		// panic(err.Error())
 	}
 	// 循环获取 pod 状态，检查为 Running 状态后，返回 pod 信息
@@ -113,6 +114,7 @@ func (p *PodApi) Delete(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "delete pod fail!",
 		})
+		return
 		// panic(err.Error())
 	}
 
@@ -154,6 +156,7 @@ func (p *PodApi) Update(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("update namespace %v pod %v fail!", updateMessage.Namespace, updateMessage.Name),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: fmt.Sprintf("Updated pod %v...", updateMessage.Name),
@@ -211,6 +214,7 @@ func (p *PodApi) List(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "list namespace: " + namespace + " pod fail!",
 		})
+		return
 		// panic(err.Error())
 	}
 	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))

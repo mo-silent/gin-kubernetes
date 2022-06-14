@@ -91,6 +91,7 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "Created deployment fail!",
 		})
+		return
 		// panic(err)
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
@@ -121,6 +122,7 @@ func (deploy *DeploymentApi) Delete(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("delete namespace %v deployment %v fail!", namespace, name),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
@@ -158,6 +160,7 @@ func (deploy *DeploymentApi) Update(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("update namespace %v deployment %v fail!", updateMessage.Namespace, updateMessage.Name),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: fmt.Sprintf("Updated deployment %v...", updateMessage.Name),
@@ -183,6 +186,7 @@ func (deploy *DeploymentApi) Get(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("get namespace %v deployment %v fail!", namespace, name),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
