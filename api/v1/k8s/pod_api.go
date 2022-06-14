@@ -15,16 +15,32 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// PodInterface pod interface
+type PodInterface interface {
+	K8SCommonInterface
+}
+
+// PodGetter getter interface
+type PodGetter interface {
+	Pod() PodInterface
+}
+
+// PodApi pod api enter
 type PodApi struct{}
 
-// CreatePod create pod
+// newPods return a PodApi
+func newPods() *PodApi {
+	return &PodApi{}
+}
+
+// Create create pod
 // @Tags Pod
 // @Summary 创建 Pod
 // @Produce application/json
 // @Param data body request.PodRequest true "Pod simple configuration"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/createPod [post]
-func (p *PodApi) CreatePod(c *gin.Context) {
+// @Router /pod/create [post]
+func (p *PodApi) Create(c *gin.Context) {
 	var podReq request.PodRequest
 	_ = c.ShouldBindJSON(&podReq)
 	// fmt.Println(podReq)
@@ -76,15 +92,15 @@ func (p *PodApi) CreatePod(c *gin.Context) {
 
 }
 
-// DeletePod
+// Delete
 // @Tags Pod
 // @Summary 删除单个 Pod
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/deletePod [delete]
-func (p *PodApi) DeletePod(c *gin.Context) {
+// @Router /pod/delete [delete]
+func (p *PodApi) Delete(c *gin.Context) {
 	// 获取命名空间和 pod 名称
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
@@ -105,15 +121,28 @@ func (p *PodApi) DeletePod(c *gin.Context) {
 
 }
 
-// GetPod
+// Update
+// @Tags Pod
+// @Summary 删除单个 Pod
+// @Produce application/json
+// @Success 200 {object} response.CommonResponse
+// @Router /pod/update [put]
+func (p *PodApi) Update(c *gin.Context) {
+	c.JSON(http.StatusOK, response.CommonResponse{
+		Message: "update pod success",
+	})
+
+}
+
+// Get
 // @Tags Pod
 // @Summary 获取单个 Pod 信息
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/getPod [post]
-func (p *PodApi) GetPod(c *gin.Context) {
+// @Router /pod/get [post]
+func (p *PodApi) Get(c *gin.Context) {
 	// get namespace
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
@@ -135,16 +164,16 @@ func (p *PodApi) GetPod(c *gin.Context) {
 	})
 }
 
-// ListNamespacePod
+// List
 // @Tags Pod
 // @Summary 获取单个命名空间中所有的  Pod 信息
 // @Produce application/json
-// @Param   namespace    path  string  false "命名空间" default(default)
+// @Param   namespace  query  string  false "命名空间" default(default)
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/listNamespacePod/{namespace} [get]
-func (p *PodApi) ListNamespacePod(c *gin.Context) {
+// @Router /pod/list [get]
+func (p *PodApi) List(c *gin.Context) {
 	// get namespace
-	namespace := c.Param("namespace")
+	namespace := c.DefaultQuery("namespace", "default")
 	if namespace == "{namespace}" || namespace == "" ||
 		strings.TrimSpace(namespace) == "" {
 		namespace = "default"
@@ -163,23 +192,23 @@ func (p *PodApi) ListNamespacePod(c *gin.Context) {
 	})
 }
 
-// ListAllPod
-// @Tags Pod
-// @Summary 获取所有 Pod 信息
-// @Produce application/json
-// @Success 200 {object} response.CommonResponse
-// @Router /pod/listAllPod [get]
-func (p *PodApi) ListAllPod(c *gin.Context) {
-	// list pod
-	pods, err := global.K8SCLIENT.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
-	if err != nil {
-		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "list all pod fail!",
-		})
-		// panic(err.Error())
-	}
-	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))
-	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: pods.Items,
-	})
-}
+// // ListAllPod
+// // @Tags Pod
+// // @Summary 获取所有 Pod 信息
+// // @Produce application/json
+// // @Success 200 {object} response.CommonResponse
+// // @Router /pod/listAllPod [get]
+// func (p *PodApi) ListAllPod(c *gin.Context) {
+// 	// list pod
+// 	pods, err := global.K8SCLIENT.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+// 	if err != nil {
+// 		c.JSON(http.StatusForbidden, response.CommonResponse{
+// 			Message: "list all pod fail!",
+// 		})
+// 		// panic(err.Error())
+// 	}
+// 	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))
+// 	c.JSON(http.StatusOK, response.CommonResponse{
+// 		Message: pods.Items,
+// 	})
+// }

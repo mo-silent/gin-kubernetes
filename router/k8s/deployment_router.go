@@ -10,11 +10,11 @@ type DeploymentRouter struct{}
 // InitDeploymentRouter 初始化 deployment 路由
 func (deploy *DeploymentRouter) InitDeploymentRouter(Router *gin.RouterGroup) {
 	deploymentGroup := Router.Group("deployment")
-	deploymentApi := v1.UnifiedApiGroupEnter.K8SApiGroup
+	deploymentApi := v1.ApiV1Enter().ApiV1K8S().Deployment()
 	{
-		deploymentGroup.GET("getDeployment/:namespace", deploymentApi.GetDeployment) // 获取 deployment 信息
-		deploymentGroup.GET("listDeployment", deploymentApi.ListDeployment)          // 获取命名空间下的所有 deployment 信息
-		deploymentGroup.POST("createDeployment", deploymentApi.CreateDeployment)     // 创建 deployment
-		deploymentGroup.DELETE("deleteDeployment", deploymentApi.DeleteDeployment)   // 删除 deployment
+		deploymentGroup.GET("get", deploymentApi.Get)          // 获取 deployment 信息
+		deploymentGroup.GET("list", deploymentApi.List)        // 获取命名空间下的所有 deployment 信息
+		deploymentGroup.POST("create", deploymentApi.Create)   // 创建 deployment
+		deploymentGroup.DELETE("delete", deploymentApi.Delete) // 删除 deployment
 	}
 }

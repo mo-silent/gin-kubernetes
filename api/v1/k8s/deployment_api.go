@@ -15,18 +15,32 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
+// DeploymentInterface deployment interface
+type DeploymentInterface interface {
+	K8SCommonInterface
+}
+
+// DeploymentGetter getter deployment
+type DeploymentGetter interface {
+	Deployment() DeploymentInterface
+}
+
+// DeploymentApi deploy api enter
 type DeploymentApi struct{}
 
-var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
+// newDeployments return DeploymentApi
+func newDeployments() *DeploymentApi {
+	return &DeploymentApi{}
+}
 
-// CreateDeployment
+// Create
 // @Tags Deployment
 // @Summary 创建 Deployment
 // @Produce application/json
 // @Param data body request.DeploymentRequest true "Deployment simple configuration"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/createDeployment [post]
-func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
+// @Router /deployment/create [post]
+func (deploy *DeploymentApi) Create(c *gin.Context) {
 	// 获取 deployment 信息
 	var deployReq request.DeploymentRequest
 	_ = c.ShouldBindJSON(&deployReq)
@@ -71,6 +85,7 @@ func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
 			},
 		},
 	}
+	var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
 	result, err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
@@ -83,16 +98,16 @@ func (deploy *DeploymentApi) CreateDeployment(c *gin.Context) {
 	})
 }
 
-// DeleteDeployment
+// Delete
 // @Tags Deployment
 // @Summary 删除单个 Deployment
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "deployment 名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/deleteDeployment [delete]
-func (deploy *DeploymentApi) DeleteDeployment(c *gin.Context) {
-	// 获取命名空间和 pod 名称
+// @Router /deployment/delete [delete]
+func (deploy *DeploymentApi) Delete(c *gin.Context) {
+	// 获取命名空间和 deployment 名称
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
 
@@ -114,14 +129,14 @@ func (deploy *DeploymentApi) DeleteDeployment(c *gin.Context) {
 
 }
 
-// UpdateDeployment
+// Update
 // @Tags Deployment
 // @Summary 更新 Deployment 的镜像版本和副本集
 // @Produce application/json
 // @Param data body request.UpdateMessage true "Deployment configuration information that needs to be changed"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/updateDeployment [put]
-func (deploy *DeploymentApi) UpdateDeployment(c *gin.Context) {
+// @Router /deployment/update [put]
+func (deploy *DeploymentApi) Update(c *gin.Context) {
 	// 获取更新信息
 	var updateMessage request.UpdateMessage
 	_ = c.ShouldBindJSON(&updateMessage)
@@ -150,16 +165,16 @@ func (deploy *DeploymentApi) UpdateDeployment(c *gin.Context) {
 
 }
 
-// GetDeployment
+// Get
 // @Tags Deployment
 // @Summary 获取单个 Deployment
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "deployment 名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/getDeployment [get]
-func (deploy *DeploymentApi) GetDeployment(c *gin.Context) {
-	// 获取命名空间和 pod 名称
+// @Router /deployment/get [get]
+func (deploy *DeploymentApi) Get(c *gin.Context) {
+	// 获取命名空间和 deployment 名称
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
 
@@ -176,14 +191,14 @@ func (deploy *DeploymentApi) GetDeployment(c *gin.Context) {
 
 }
 
-// ListDeployment
+// List
 // @Tags Deployment
 // @Summary 获取命名空间下的所有 Deployment
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/listDeployment [get]
-func (deploy *DeploymentApi) ListDeployment(c *gin.Context) {
+// @Router /deployment/list [get]
+func (deploy *DeploymentApi) List(c *gin.Context) {
 	// 获取命名空间
 	namespace := c.DefaultQuery("namespace", "default")
 
