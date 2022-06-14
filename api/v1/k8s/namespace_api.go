@@ -50,6 +50,7 @@ func (deploy *NamespaceApi) Create(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "create namespace fail!",
 		})
+		return
 		// panic(err.Error())
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
@@ -77,6 +78,7 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("delete namespace %v fail!", name),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
@@ -87,7 +89,7 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 
 // Update
 // @Tags Namespace
-// @Summary 更新 Namespace 的镜像版本和副本集
+// @Summary 更新 Namespace 的名称
 // @Produce application/json
 // @Param   oldname    query  string  true "namespace 名称"
 // @Param   newname    query  string  true "新的 namespace 名称"
@@ -115,6 +117,7 @@ func (deploy *NamespaceApi) Update(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("update namespace %v to %v fail!", oldName, newName),
 		})
+		return
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
@@ -138,6 +141,7 @@ func (deploy *NamespaceApi) Get(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: fmt.Sprintf("get namespace %v fail!", name),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
@@ -158,6 +162,7 @@ func (deploy *NamespaceApi) List(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "list all namespace fail!",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
