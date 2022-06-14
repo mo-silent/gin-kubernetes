@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/util/retry"
 )
 
 // PodInterface pod interface
@@ -125,11 +126,37 @@ func (p *PodApi) Delete(c *gin.Context) {
 // @Tags Pod
 // @Summary 更新 Pod
 // @Produce application/json
+// @Param data body request.PodUpdateMessage true "Pod configuration information that needs to be changed"
 // @Success 200 {object} response.CommonResponse
 // @Router /pod/update [put]
 func (p *PodApi) Update(c *gin.Context) {
+	// 获取更新信息
+	var updateMessage request.PodUpdateMessage
+	_ = c.ShouldBindJSON(&updateMessage)
+
+	podClient := global.K8SCLIENT.CoreV1().Pods(updateMessage.Namespace)
+
+	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		pods, err := podClient.Get(context.TODO(), updateMessage.Name, metav1.GetOptions{})
+		if err != nil {
+			c.JSON(http.StatusForbidden, response.CommonResponse{
+				Message: "Update pod return when get pod fail!",
+			})
+			// panic(err.Error())
+		}
+		pods.Spec.Containers[0].Image = updateMessage.NewImage
+
+		_, updateErr := podClient.Update(context.TODO(), pods, metav1.UpdateOptions{})
+		return updateErr
+	})
+
+	if retryErr != nil {
+		c.JSON(http.StatusForbidden, response.CommonResponse{
+			Message: fmt.Sprintf("update namespace %v pod %v fail!", updateMessage.Namespace, updateMessage.Name),
+		})
+	}
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: "update pod success",
+		Message: fmt.Sprintf("Updated pod %v...", updateMessage.Name),
 	})
 
 }
