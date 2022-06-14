@@ -123,7 +123,7 @@ func (p *PodApi) Delete(c *gin.Context) {
 
 // Update
 // @Tags Pod
-// @Summary 删除单个 Pod
+// @Summary 更新 Pod
 // @Produce application/json
 // @Success 200 {object} response.CommonResponse
 // @Router /pod/update [put]
@@ -141,7 +141,7 @@ func (p *PodApi) Update(c *gin.Context) {
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
 // @Success 200 {object} response.CommonResponse
-// @Router /pod/get [post]
+// @Router /pod/get [get]
 func (p *PodApi) Get(c *gin.Context) {
 	// get namespace
 	namespace := c.DefaultQuery("namespace", "default")
@@ -166,7 +166,7 @@ func (p *PodApi) Get(c *gin.Context) {
 
 // List
 // @Tags Pod
-// @Summary 获取单个命名空间中所有的  Pod 信息
+// @Summary 获取命名空间中所有的  Pod 信息
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Success 200 {object} response.CommonResponse
