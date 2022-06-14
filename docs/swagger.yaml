@@ -156,6 +156,95 @@ paths:
       summary: 更新 Deployment 的镜像版本和副本集
       tags:
       - Deployment
+  /namespace/create:
+    post:
+      parameters:
+      - description: Namespace name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 创建 Namespace
+      tags:
+      - Namespace
+  /namespace/delete:
+    delete:
+      parameters:
+      - description: namespace 名称
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 删除单个 Namespace
+      tags:
+      - Namespace
+  /namespace/get:
+    get:
+      parameters:
+      - description: namespace 名称
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 获取单个 Namespace
+      tags:
+      - Namespace
+  /namespace/list:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 获取所有的 Namespace
+      tags:
+      - Namespace
+  /namespace/update:
+    put:
+      parameters:
+      - description: namespace 名称
+        in: query
+        name: oldname
+        required: true
+        type: string
+      - description: 新的 namespace 名称
+        in: query
+        name: newname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CommonResponse'
+      summary: 更新 Namespace 的镜像版本和副本集
+      tags:
+      - Namespace
   /pod/create:
     post:
       parameters:

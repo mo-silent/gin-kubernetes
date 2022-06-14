@@ -17,6 +17,7 @@ func InitRouters() *gin.Engine {
 	{
 		k8sRouter.InitPodRouter(PrivateGroup)        // 注册 pod 路由
 		k8sRouter.InitDeploymentRouter(PrivateGroup) // 注册 deployment 路由
+		k8sRouter.InitNamespaceRouter(PrivateGroup)  // 注册 namespace 路由
 	}
 
 	return Router
