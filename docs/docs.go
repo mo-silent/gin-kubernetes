@@ -285,7 +285,7 @@ const docTemplate = `{
                 "tags": [
                     "Namespace"
                 ],
-                "summary": "更新 Namespace 的镜像版本和副本集",
+                "summary": "更新 Namespace 的名称",
                 "parameters": [
                     {
                         "type": "string",
