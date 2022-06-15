@@ -277,41 +277,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/namespace/update": {
-            "put": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Namespace"
-                ],
-                "summary": "更新 Namespace 的名称",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "namespace 名称",
-                        "name": "oldname",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "新的 namespace 名称",
-                        "name": "newname",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.CommonResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/pod/create": {
             "post": {
                 "produces": [

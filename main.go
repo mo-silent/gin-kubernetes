@@ -34,7 +34,7 @@ func main() {
 	flag.Parse()
 
 	// create the k8sClient
-	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
+	global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
 	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)
 
 	// 初始化路由

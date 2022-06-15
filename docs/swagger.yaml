@@ -222,29 +222,6 @@ paths:
       summary: 获取所有的 Namespace
       tags:
       - Namespace
-  /namespace/update:
-    put:
-      parameters:
-      - description: namespace 名称
-        in: query
-        name: oldname
-        required: true
-        type: string
-      - description: 新的 namespace 名称
-        in: query
-        name: newname
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.CommonResponse'
-      summary: 更新 Namespace 的名称
-      tags:
-      - Namespace
   /pod/create:
     post:
       parameters:

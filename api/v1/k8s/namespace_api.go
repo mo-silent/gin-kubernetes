@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/util/retry"
+	// "k8s.io/client-go/util/retry"
 )
 
 // NamespaceInterface namespace interface
@@ -87,41 +87,37 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 
 }
 
-// Update
-// @Tags Namespace
-// @Summary 更新 Namespace 的名称
-// @Produce application/json
-// @Param   oldname    query  string  true "namespace 名称"
-// @Param   newname    query  string  true "新的 namespace 名称"
-// @Success 200 {object} response.CommonResponse
-// @Router /namespace/update [put]
+// Update nothing to do
 func (deploy *NamespaceApi) Update(c *gin.Context) {
+	c.JSON(http.StatusForbidden, response.CommonResponse{
+		Message: "Forbidden API",
+	})
 	// 获取更新信息
-	oldName := c.Query("oldname")
-	newName := c.Query("newname")
+	// oldName := c.Query("oldname")
+	// newName := c.Query("newname")
 
-	namespacesClient := global.K8SCLIENT.CoreV1().Namespaces()
-	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		// Retrieve the latest version of Namespace before attempting update
-		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
-		result, getErr := namespacesClient.Get(context.TODO(), oldName, metav1.GetOptions{})
-		if getErr != nil {
-			panic(fmt.Errorf("failed to get latest version of Namespace: %v", getErr))
-		}
+	// namespacesClient := global.K8SCLIENT.CoreV1().Namespaces()
+	// retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
+	// 	// Retrieve the latest version of Namespace before attempting update
+	// 	// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
+	// 	result, getErr := namespacesClient.Get(context.TODO(), oldName, metav1.GetOptions{})
+	// 	if getErr != nil {
+	// 		panic(fmt.Errorf("failed to get latest version of Namespace: %v", getErr))
+	// 	}
 
-		result.Name = newName
-		_, updateErr := namespacesClient.Update(context.TODO(), result, metav1.UpdateOptions{})
-		return updateErr
-	})
-	if retryErr != nil {
-		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("update namespace %v to %v fail!", oldName, newName),
-		})
-		return
-	}
-	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
-	})
+	// 	result.Name = newName
+	// 	_, updateErr := namespacesClient.Update(context.TODO(), result, metav1.UpdateOptions{})
+	// 	return updateErr
+	// })
+	// if retryErr != nil {
+	// 	c.JSON(http.StatusForbidden, response.CommonResponse{
+	// 		Message: fmt.Sprintf("update namespace %v to %v fail!", oldName, retryErr),
+	// 	})
+	// 	return
+	// }
+	// c.JSON(http.StatusOK, response.CommonResponse{
+	// 	Message: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
+	// })
 
 }
 
