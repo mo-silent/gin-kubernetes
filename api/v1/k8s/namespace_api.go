@@ -109,7 +109,7 @@ func (deploy *NamespaceApi) Update(c *gin.Context) {
 			panic(fmt.Errorf("failed to get latest version of Namespace: %v", getErr))
 		}
 
-		result.Name = newName // change nginx version
+		result.Name = newName
 		_, updateErr := namespacesClient.Update(context.TODO(), result, metav1.UpdateOptions{})
 		return updateErr
 	})

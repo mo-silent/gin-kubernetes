@@ -152,7 +152,7 @@ func (deploy *DeploymentApi) Update(c *gin.Context) {
 		}
 
 		result.Spec.Replicas = &updateMessage.ReplicasNumber                   // reduce replica count
-		result.Spec.Template.Spec.Containers[0].Image = updateMessage.NewImage // change nginx version
+		result.Spec.Template.Spec.Containers[0].Image = updateMessage.NewImage // change image version
 		_, updateErr := deploymentsClient.Update(context.TODO(), result, metav1.UpdateOptions{})
 		return updateErr
 	})
