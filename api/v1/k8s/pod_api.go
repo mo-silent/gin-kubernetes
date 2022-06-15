@@ -186,9 +186,9 @@ func (p *PodApi) Get(c *gin.Context) {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Message: "get pod fail!",
 		})
-		// panic(err.Error())
+		return
 	}
-	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))
+
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: pods,
 	})
@@ -215,9 +215,8 @@ func (p *PodApi) List(c *gin.Context) {
 			Message: "list namespace: " + namespace + " pod fail!",
 		})
 		return
-		// panic(err.Error())
 	}
-	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))
+
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Message: pods.Items,
 	})
