@@ -7,8 +7,18 @@ import (
 
 type DeploymentRouter struct{}
 
+// DeploymentGetter depolyment router enter
+type DeploymentGetter interface {
+	Depolyment() K8SRouterInterface
+}
+
+// newDeployments return deployment router instance
+func newDeployments() *DeploymentRouter {
+	return &DeploymentRouter{}
+}
+
 // InitDeploymentRouter 初始化 deployment 路由
-func (deploy *DeploymentRouter) InitDeploymentRouter(Router *gin.RouterGroup) {
+func (deploy *DeploymentRouter) InitRouter(Router *gin.RouterGroup) {
 	deploymentGroup := Router.Group("deployment")
 	deploymentApi := v1.ApiV1Enter().ApiV1K8S().Deployment()
 	{
@@ -17,6 +27,5 @@ func (deploy *DeploymentRouter) InitDeploymentRouter(Router *gin.RouterGroup) {
 		deploymentGroup.PUT("update", deploymentApi.Update)    // 更新 deployment
 		deploymentGroup.GET("get", deploymentApi.Get)          // 获取 deployment 信息
 		deploymentGroup.GET("list", deploymentApi.List)        // 获取命名空间下的所有 deployment 信息
-
 	}
 }

@@ -7,8 +7,18 @@ import (
 
 type PodRouter struct{}
 
+// PodGetter pod router enter
+type PodGetter interface {
+	Pod() K8SRouterInterface
+}
+
+// newPods return pod router instance
+func newPods() *PodRouter {
+	return &PodRouter{}
+}
+
 // InitPodRouter 初始化 pod 路由
-func (p *PodRouter) InitPodRouter(Router *gin.RouterGroup) {
+func (p *PodRouter) InitRouter(Router *gin.RouterGroup) {
 	podGroup := Router.Group("pod")
 	podApi := v1.ApiV1Enter().ApiV1K8S().Pod()
 	{
@@ -17,6 +27,5 @@ func (p *PodRouter) InitPodRouter(Router *gin.RouterGroup) {
 		podGroup.PUT("update", podApi.Update)    // 更新 pod 信息
 		podGroup.GET("get", podApi.Get)          // 获取单个 pod 信息
 		podGroup.GET("list", podApi.List)        // 获取命名空间的所有 pod 信息
-
 	}
 }

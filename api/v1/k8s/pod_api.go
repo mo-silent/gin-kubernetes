@@ -16,14 +16,9 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
-// PodInterface pod interface
-type PodInterface interface {
-	K8SCommonInterface
-}
-
 // PodGetter getter interface
 type PodGetter interface {
-	Pod() PodInterface
+	Pod() K8SCommonInterface
 }
 
 // PodApi pod api enter

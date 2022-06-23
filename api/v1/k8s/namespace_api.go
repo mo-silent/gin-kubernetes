@@ -13,14 +13,9 @@ import (
 	// "k8s.io/client-go/util/retry"
 )
 
-// NamespaceInterface namespace interface
-type NamespaceInterface interface {
-	K8SCommonInterface
-}
-
 // NamespaceGetter getter namespace
 type NamespaceGetter interface {
-	Namespace() NamespaceInterface
+	Namespace() K8SCommonInterface
 }
 
 // NamespaceApi namespace api enter

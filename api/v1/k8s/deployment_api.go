@@ -15,14 +15,9 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
-// DeploymentInterface deployment interface
-type DeploymentInterface interface {
-	K8SCommonInterface
-}
-
 // DeploymentGetter getter deployment
 type DeploymentGetter interface {
-	Deployment() DeploymentInterface
+	Deployment() K8SCommonInterface
 }
 
 // DeploymentApi deploy api enter

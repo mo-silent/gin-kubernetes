@@ -7,16 +7,25 @@ import (
 
 type NamespaceRouter struct{}
 
+// NamespaceGetter namespace router enter
+type NamespaceGetter interface {
+	Namespace() K8SRouterInterface
+}
+
+// newNamespace return new namespace instance
+func newNamespace() *NamespaceRouter {
+	return &NamespaceRouter{}
+}
+
 // InitNamespaceRouter 初始化 namespace 路由
-func (p *NamespaceRouter) InitNamespaceRouter(Router *gin.RouterGroup) {
+func (p *NamespaceRouter) InitRouter(Router *gin.RouterGroup) {
 	namespaceGroup := Router.Group("namespace")
 	namespaceApi := v1.ApiV1Enter().ApiV1K8S().Namespace()
 	{
 		namespaceGroup.POST("create", namespaceApi.Create)   // 创建 namespace
 		namespaceGroup.DELETE("delete", namespaceApi.Delete) // 删除 namespace
 		// namespaceGroup.PUT("update", namespaceApi.Update)    // 更新 namespace 信息
-		namespaceGroup.GET("get", namespaceApi.Get)          // 获取单个 namespace 信息
-		namespaceGroup.GET("list", namespaceApi.List)        // 获取命名空间的所有 namespace 信息
-
+		namespaceGroup.GET("get", namespaceApi.Get)   // 获取单个 namespace 信息
+		namespaceGroup.GET("list", namespaceApi.List) // 获取命名空间的所有 namespace 信息
 	}
 }
