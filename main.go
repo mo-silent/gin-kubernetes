@@ -1,16 +1,13 @@
 package main
 
 import (
-	"flag"
 	"net/http"
-	"path/filepath"
 	"time"
 
 	"gitee.com/MoGD/gin-kubernetes/core"
 	_ "gitee.com/MoGD/gin-kubernetes/docs"
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/initialize"
-	"k8s.io/client-go/util/homedir"
 )
 
 //go:generate go env -w GO111MODULE=on
@@ -28,10 +25,6 @@ import (
 func main() {
 	// Generate variables by importing a configuration file from viper
 	global.VP = core.Viper()
-	// if Kubeconfig is null, use system default path
-	if global.CONFIG.Kubeconfig == "" {
-		global.KUBECONFIG = flag.String("kubeconfig", filepath.Join(homedir.HomeDir(), ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-	}
 
 	// create the k8sClient
 	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)

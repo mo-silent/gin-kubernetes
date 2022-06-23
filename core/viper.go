@@ -4,10 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"k8s.io/client-go/util/homedir"
 )
 
 // Viper //
@@ -19,7 +21,7 @@ func Viper(path ...string) *viper.Viper {
 
 	if len(path) == 0 {
 		flag.StringVar(&config, "c", "", "choose config file.")
-		flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
+		flag.StringVar(&kubeconfig, "kubeconfig", filepath.Join(homedir.HomeDir(), ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 		flag.Parse()
 		if config == "" { // 判断命令行参数是否为空
 			if configEnv := os.Getenv(configEnv); configEnv == "" { // 判断 configEnv 常量存储的环境变量是否为空

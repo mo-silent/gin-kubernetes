@@ -8,7 +8,6 @@ import (
 )
 
 var (
-	KUBECONFIG       *string
 	K8SCLIENT        *kubernetes.Clientset
 	DynamicK8SCLIENT dynamic.Interface
 	CONFIG           conf.Server
