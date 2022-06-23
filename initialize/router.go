@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"gitee.com/MoGD/gin-kubernetes/middleware"
 	"gitee.com/MoGD/gin-kubernetes/router"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -14,6 +15,7 @@ func InitRouters() *gin.Engine {
 	k8sRouter := router.RouterGroupEnter().K8SRouter()
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	PrivateGroup := Router.Group("")
+	PrivateGroup.Use(middleware.CasbinHandler())
 	{
 		k8sRouter.Depolyment().InitRouter(PrivateGroup) // 注册 pod 路由
 		k8sRouter.Pod().InitRouter(PrivateGroup)        // 注册 deployment 路由
