@@ -26,9 +26,9 @@ func InitK8sClient() *kubernetes.Clientset {
 
 // InitDynamicK8sClient 初始化动态 k8s client
 // Return dynamic.Interface
-func InitDynamicK8sClient(kubeconfig *string) dynamic.Interface {
+func InitDynamicK8sClient() dynamic.Interface {
 	// use the current context in kubeconfig
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	config, err := clientcmd.BuildConfigFromFlags("", global.CONFIG.Kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
