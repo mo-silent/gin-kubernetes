@@ -8,6 +8,8 @@ import (
 	_ "gitee.com/MoGD/gin-kubernetes/docs"
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/initialize"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 //go:generate go env -w GO111MODULE=on
@@ -26,6 +28,7 @@ func main() {
 	// Generate variables by importing a configuration file from viper
 	global.VP = core.Viper()
 
+	global.DB, _ = gorm.Open(mysql.Open(global.CONFIG.Mysql.Dsn()), &gorm.Config{})
 	// create the k8sClient
 	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
 	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)

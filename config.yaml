@@ -1,3 +1,11 @@
+kubeconfig: C:\Users\mogd\.kube\config
+mysql:
+    config: charset=utf8mb4&parseTime=True&loc=Local
+    db-name: gva
+    password: Admin1234%
+    path: 39.101.244.245
+    port: "3306"
+    username: root
 system:
-  addr: ":8888"
-kubeconfig: ""
+    addr: :8888
+    env: develop
