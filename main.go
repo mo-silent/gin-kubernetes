@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"gitee.com/MoGD/gin-kubernetes/core"
 	_ "gitee.com/MoGD/gin-kubernetes/docs"
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/initialize"
@@ -34,14 +35,16 @@ func main() {
 	flag.Parse()
 
 	// create the k8sClient
-	global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
+	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
 	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)
 
+	// Generate variables by importing a configuration file from viper
+	global.VP = core.Viper()
 	// 初始化路由
 	router := initialize.InitRouters()
 	// Custom HTTP configuration
 	s := &http.Server{
-		Addr:           ":8080",
+		Addr:           global.CONFIG.System.Addr,
 		Handler:        router,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
