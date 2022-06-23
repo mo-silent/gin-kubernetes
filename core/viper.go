@@ -15,10 +15,11 @@ import (
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author [Mogd](https://gitee.com/MoGD)
 func Viper(path ...string) *viper.Viper {
-	var config string
+	var config, kubeconfig string
 
 	if len(path) == 0 {
 		flag.StringVar(&config, "c", "", "choose config file.")
+		flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
 		flag.Parse()
 		if config == "" { // 判断命令行参数是否为空
 			if configEnv := os.Getenv(configEnv); configEnv == "" { // 判断 configEnv 常量存储的环境变量是否为空
@@ -55,5 +56,10 @@ func Viper(path ...string) *viper.Viper {
 		fmt.Println(err)
 	}
 
+	if kubeconfig != "" {
+		global.CONFIG.Kubeconfig = kubeconfig
+		v.Set("kubeconfig", kubeconfig)
+	}
+	_ = v.WriteConfig()
 	return v
 }

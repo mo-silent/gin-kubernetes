@@ -26,20 +26,17 @@ import (
 // @name x-token
 // @BasePath /
 func main() {
-	// 传入的参数
-	if home := homedir.HomeDir(); home != "" {
-		global.KUBECONFIG = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-	} else {
-		global.KUBECONFIG = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+	// Generate variables by importing a configuration file from viper
+	global.VP = core.Viper()
+	// if Kubeconfig is null, use system default path
+	if global.CONFIG.Kubeconfig == "" {
+		global.KUBECONFIG = flag.String("kubeconfig", filepath.Join(homedir.HomeDir(), ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	}
-	flag.Parse()
 
 	// create the k8sClient
 	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
 	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)
 
-	// Generate variables by importing a configuration file from viper
-	global.VP = core.Viper()
 	// 初始化路由
 	router := initialize.InitRouters()
 	// Custom HTTP configuration
