@@ -43,13 +43,13 @@ func (deploy *NamespaceApi) Create(c *gin.Context) {
 	_, err := global.K8SCLIENT.CoreV1().Namespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "create namespace fail!",
+			Msg: "create namespace fail!",
 		})
 		return
 		// panic(err.Error())
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("Created namespace %v.\n", name),
+		Msg: fmt.Sprintf("Created namespace %v.\n", name),
 	})
 }
 
@@ -71,13 +71,13 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 	// err := global.DynamicK8SCLIENT.Resource(NamespaceRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
 	if err := global.K8SCLIENT.CoreV1().Namespaces().Delete(context.TODO(), name, deleteOptions); err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("delete namespace %v fail!", name),
+			Msg: fmt.Sprintf("delete namespace %v fail!", name),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("delete namespace %v success", name),
+		Msg: fmt.Sprintf("delete namespace %v success", name),
 	})
 
 }
@@ -85,7 +85,7 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 // Update nothing to do
 func (deploy *NamespaceApi) Update(c *gin.Context) {
 	c.JSON(http.StatusForbidden, response.CommonResponse{
-		Message: "Forbidden API",
+		Msg: "Forbidden API",
 	})
 	// 获取更新信息
 	// oldName := c.Query("oldname")
@@ -106,12 +106,12 @@ func (deploy *NamespaceApi) Update(c *gin.Context) {
 	// })
 	// if retryErr != nil {
 	// 	c.JSON(http.StatusForbidden, response.CommonResponse{
-	// 		Message: fmt.Sprintf("update namespace %v to %v fail!", oldName, retryErr),
+	// 		Msg: fmt.Sprintf("update namespace %v to %v fail!", oldName, retryErr),
 	// 	})
 	// 	return
 	// }
 	// c.JSON(http.StatusOK, response.CommonResponse{
-	// 	Message: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
+	// 	Msg: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
 	// })
 
 }
@@ -130,13 +130,13 @@ func (deploy *NamespaceApi) Get(c *gin.Context) {
 	result, err := global.K8SCLIENT.CoreV1().Namespaces().Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("get namespace %v fail!", name),
+			Msg: fmt.Sprintf("get namespace %v fail!", name),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("get namespace %v, value %v", name, result),
+		Msg: fmt.Sprintf("get namespace %v, value %v", name, result),
 	})
 
 }
@@ -151,13 +151,14 @@ func (deploy *NamespaceApi) List(c *gin.Context) {
 	result, err := global.K8SCLIENT.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "list all namespace fail!",
+			Msg: "list all namespace fail!",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: result,
+		Msg:  "list deploy succeed",
+		Data: result,
 	})
 
 }

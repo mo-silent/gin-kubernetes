@@ -1,5 +1,6 @@
 package response
 
 type CommonResponse struct {
-	Message interface{} `json:"response message"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }

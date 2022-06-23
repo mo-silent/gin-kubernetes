@@ -84,13 +84,13 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 	result, err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "Created deployment fail!",
+			Msg: "Created deployment fail!",
 		})
 		return
 		// panic(err)
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("Created deployment %q.\n", result.GetName()),
+		Msg: fmt.Sprintf("Created deployment %q.\n", result.GetName()),
 	})
 }
 
@@ -115,13 +115,13 @@ func (deploy *DeploymentApi) Delete(c *gin.Context) {
 	// err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
 	if err := global.K8SCLIENT.AppsV1().Deployments(namespace).Delete(context.TODO(), name, deleteOptions); err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("delete namespace %v deployment %v fail!", namespace, name),
+			Msg: fmt.Sprintf("delete namespace %v deployment %v fail!", namespace, name),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("delete deployment %v success", name),
+		Msg: fmt.Sprintf("delete deployment %v success", name),
 	})
 
 }
@@ -153,12 +153,12 @@ func (deploy *DeploymentApi) Update(c *gin.Context) {
 	})
 	if retryErr != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("update namespace %v deployment %v fail!", updateMessage.Namespace, updateMessage.Name),
+			Msg: fmt.Sprintf("update namespace %v deployment %v fail!", updateMessage.Namespace, updateMessage.Name),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("Updated deployment %v...", updateMessage.Name),
+		Msg: fmt.Sprintf("Updated deployment %v...", updateMessage.Name),
 	})
 
 }
@@ -179,13 +179,13 @@ func (deploy *DeploymentApi) Get(c *gin.Context) {
 	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("get namespace %v deployment %v fail!", namespace, name),
+			Msg: fmt.Sprintf("get namespace %v deployment %v fail!", namespace, name),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("get deployment %v, value %v", name, result),
+		Msg: fmt.Sprintf("get deployment %v, value %v", name, result),
 	})
 
 }
@@ -204,12 +204,12 @@ func (deploy *DeploymentApi) List(c *gin.Context) {
 	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("list namespace %v deployment fail!", namespace),
+			Msg: fmt.Sprintf("list namespace %v deployment fail!", namespace),
 		})
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: result,
+		Data: result,
 	})
 
 }

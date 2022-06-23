@@ -68,7 +68,7 @@ func (p *PodApi) Create(c *gin.Context) {
 	_, err := podClient.Create(context.TODO(), pod, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "create pod fail!",
+			Msg: "create pod fail!",
 		})
 		return
 		// panic(err.Error())
@@ -78,13 +78,13 @@ func (p *PodApi) Create(c *gin.Context) {
 	// 	podStatus, _ := podClient.Get(context.TODO(), "demo-pod", metav1.GetOptions{})
 	// 	if podStatus.Status.Phase == "Running" {
 	// 		c.JSON(http.StatusOK, response.CommonResponse{
-	// 			Message: podStatus,
+	// 			Msg: podStatus,
 	// 		})
 	// 		break
 	// 	}
 	// }
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: "create pod interface call success! Please watch pod status until the status is running.",
+		Msg: "create pod interface call success! Please watch pod status until the status is running.",
 	})
 
 }
@@ -107,14 +107,14 @@ func (p *PodApi) Delete(c *gin.Context) {
 	err := podClient.Delete(context.TODO(), name, metav1.DeleteOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "delete pod fail!",
+			Msg: "delete pod fail!",
 		})
 		return
 		// panic(err.Error())
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("delete pod %v success", name),
+		Msg: fmt.Sprintf("delete pod %v success", name),
 	})
 
 }
@@ -137,7 +137,7 @@ func (p *PodApi) Update(c *gin.Context) {
 		pods, err := podClient.Get(context.TODO(), updateMessage.Name, metav1.GetOptions{})
 		if err != nil {
 			c.JSON(http.StatusForbidden, response.CommonResponse{
-				Message: "Update pod return when get pod fail!",
+				Msg: "Update pod return when get pod fail!",
 			})
 			// panic(err.Error())
 		}
@@ -149,12 +149,12 @@ func (p *PodApi) Update(c *gin.Context) {
 
 	if retryErr != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: fmt.Sprintf("update namespace %v pod %v fail!", updateMessage.Namespace, updateMessage.Name),
+			Msg: fmt.Sprintf("update namespace %v pod %v fail!", updateMessage.Namespace, updateMessage.Name),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: fmt.Sprintf("Updated pod %v...", updateMessage.Name),
+		Msg: fmt.Sprintf("Updated pod %v...", updateMessage.Name),
 	})
 
 }
@@ -179,13 +179,14 @@ func (p *PodApi) Get(c *gin.Context) {
 	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "get pod fail!",
+			Msg: "get pod fail!",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: pods,
+		Msg:  "get pod succeed",
+		Data: pods,
 	})
 }
 
@@ -207,13 +208,14 @@ func (p *PodApi) List(c *gin.Context) {
 	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
-			Message: "list namespace: " + namespace + " pod fail!",
+			Msg: "list namespace: " + namespace + " pod fail!",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Message: pods.Items,
+		Msg:  "list pod succeed",
+		Data: pods.Items,
 	})
 }
 
@@ -228,12 +230,12 @@ func (p *PodApi) List(c *gin.Context) {
 // 	pods, err := global.K8SCLIENT.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
 // 	if err != nil {
 // 		c.JSON(http.StatusForbidden, response.CommonResponse{
-// 			Message: "list all pod fail!",
+// 			Msg: "list all pod fail!",
 // 		})
 // 		// panic(err.Error())
 // 	}
 // 	//fmt.Sprintf("There are %d pods in the cluster\n", len(pods.Items))
 // 	c.JSON(http.StatusOK, response.CommonResponse{
-// 		Message: pods.Items,
+// 		Msg: pods.Items,
 // 	})
 // }
