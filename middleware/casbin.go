@@ -9,6 +9,7 @@ import (
 
 var casbinService = new(service.CasbinService)
 
+// CasbinHandler casbin middleware to determine permissions
 func CasbinHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// waitUse, _ := utils.GetClaims(c)

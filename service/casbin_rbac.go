@@ -12,16 +12,17 @@ import (
 
 type CasbinService struct{}
 
-//@author: [piexlmax](https://github.com/piexlmax)
+//@author: [mogd](https://gitee.com/MoGD)
 //@function: Casbin
 //@description: 持久化到数据库  引入自定义规则
-//@return: *casbin.Enforcer
+//@return: *casbin.SyncedEnforcer
 
 var (
 	syncedEnforcer *casbin.SyncedEnforcer
 	once           sync.Once
 )
 
+// Casbin use grom adapters to storage casbin rule，introduce custom rules
 func (casbinService *CasbinService) Casbin() *casbin.SyncedEnforcer {
 	once.Do(func() {
 		a, _ := gormadapter.NewAdapterByDB(global.GVA_DB)
