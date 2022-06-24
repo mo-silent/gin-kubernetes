@@ -1,9 +1,10 @@
 package middleware
 
 import (
+	"net/http"
+
+	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/service"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,10 +23,11 @@ func CasbinHandler() gin.HandlerFunc {
 		e := casbinService.Casbin()
 		// 判断策略中是否存在
 		success, _ := e.Enforce(sub, obj, act)
-		if global.GVA_CONFIG.System.Env == "develop" || success {
+		if global.CONFIG.System.Env == "develop" || success {
 			c.Next()
 		} else {
-			response.FailWithDetailed(gin.H{}, "权限不足", c)
+			// response.FailWithDetailed(gin.H{}, "权限不足", c)
+			c.JSON(http.StatusConflict, "权限不足")
 			c.Abort()
 			return
 		}

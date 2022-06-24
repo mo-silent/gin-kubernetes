@@ -3,10 +3,10 @@ package service
 import (
 	"sync"
 
+	"gitee.com/MoGD/gin-kubernetes/global"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +25,7 @@ var (
 // Casbin use grom adapters to storage casbin rule，introduce custom rules
 func (casbinService *CasbinService) Casbin() *casbin.SyncedEnforcer {
 	once.Do(func() {
-		a, _ := gormadapter.NewAdapterByDB(global.GVA_DB)
+		a, _ := gormadapter.NewAdapterByDB(global.DB)
 		text := `
 		[request_definition]
 		r = sub, obj, act
