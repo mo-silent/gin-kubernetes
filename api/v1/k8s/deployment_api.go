@@ -31,6 +31,7 @@ func newDeployments() *DeploymentApi {
 // Create
 // @Tags Deployment
 // @Summary 创建 Deployment
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param data body request.DeploymentRequest true "Deployment simple configuration"
 // @Success 200 {object} response.CommonResponse
@@ -97,6 +98,7 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 // Delete
 // @Tags Deployment
 // @Summary 删除单个 Deployment
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "deployment 名称"
@@ -129,6 +131,7 @@ func (deploy *DeploymentApi) Delete(c *gin.Context) {
 // Update
 // @Tags Deployment
 // @Summary 更新 Deployment 的镜像版本和副本集
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param data body request.DeployUpdateMessage true "Deployment configuration information that needs to be changed"
 // @Success 200 {object} response.CommonResponse
@@ -166,6 +169,7 @@ func (deploy *DeploymentApi) Update(c *gin.Context) {
 // Get
 // @Tags Deployment
 // @Summary 获取单个 Deployment
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "deployment 名称"
@@ -193,6 +197,7 @@ func (deploy *DeploymentApi) Get(c *gin.Context) {
 // List
 // @Tags Deployment
 // @Summary 获取命名空间下的所有 Deployment
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Success 200 {object} response.CommonResponse

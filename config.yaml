@@ -1,3 +1,7 @@
+jwt:
+    expires-time: 1
+    issuer: ginKubernetes
+    signing-key: a8l8yio4-jqh9-fnbs-b7f3-4k5ch7mc1qhk
 kubeconfig: C:\Users\mogd\.kube\config
 mysql:
     config: charset=utf8mb4&parseTime=True&loc=Local

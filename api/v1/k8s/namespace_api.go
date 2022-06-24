@@ -29,6 +29,7 @@ func newNamespace() *NamespaceApi {
 // Create
 // @Tags Namespace
 // @Summary 创建 Namespace
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param name query string  true "Namespace name"
 // @Success 200 {object} response.CommonResponse
@@ -56,6 +57,7 @@ func (deploy *NamespaceApi) Create(c *gin.Context) {
 // Delete
 // @Tags Namespace
 // @Summary 删除单个 Namespace
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   name    query  string  true "namespace 名称"
 // @Success 200 {object} response.CommonResponse
@@ -119,6 +121,7 @@ func (deploy *NamespaceApi) Update(c *gin.Context) {
 // Get
 // @Tags Namespace
 // @Summary 获取单个 Namespace
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   name    query  string  true "namespace 名称"
 // @Success 200 {object} response.CommonResponse
@@ -144,6 +147,7 @@ func (deploy *NamespaceApi) Get(c *gin.Context) {
 // List
 // @Tags Namespace
 // @Summary 获取所有的 Namespace
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Success 200 {object} response.CommonResponse
 // @Router /namespace/list [get]

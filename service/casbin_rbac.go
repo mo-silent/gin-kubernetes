@@ -10,6 +10,10 @@ import (
 	"go.uber.org/zap"
 )
 
+type CasbinInterface interface {
+	Casbin() *casbin.SyncedEnforcer
+}
+
 type CasbinService struct{}
 
 //@author: [mogd](https://gitee.com/MoGD)
@@ -51,4 +55,8 @@ func (casbinService *CasbinService) Casbin() *casbin.SyncedEnforcer {
 	})
 	_ = syncedEnforcer.LoadPolicy()
 	return syncedEnforcer
+}
+
+func NewCasbin() CasbinInterface {
+	return &CasbinService{}
 }

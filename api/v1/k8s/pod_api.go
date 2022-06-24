@@ -32,6 +32,7 @@ func newPods() *PodApi {
 // Create create pod
 // @Tags Pod
 // @Summary 创建 Pod
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param data body request.PodRequest true "Pod simple configuration"
 // @Success 200 {object} response.CommonResponse
@@ -92,6 +93,7 @@ func (p *PodApi) Create(c *gin.Context) {
 // Delete
 // @Tags Pod
 // @Summary 删除单个 Pod
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
@@ -122,6 +124,7 @@ func (p *PodApi) Delete(c *gin.Context) {
 // Update
 // @Tags Pod
 // @Summary 更新 Pod
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param data body request.PodUpdateMessage true "Pod configuration information that needs to be changed"
 // @Success 200 {object} response.CommonResponse
@@ -162,6 +165,7 @@ func (p *PodApi) Update(c *gin.Context) {
 // Get
 // @Tags Pod
 // @Summary 获取单个 Pod 信息
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Param   name    query  string  true "pod名称"
@@ -193,6 +197,7 @@ func (p *PodApi) Get(c *gin.Context) {
 // List
 // @Tags Pod
 // @Summary 获取命名空间中所有的  Pod 信息
+// @Security ApiKeyAuth
 // @Produce application/json
 // @Param   namespace  query  string  false "命名空间" default(default)
 // @Success 200 {object} response.CommonResponse
