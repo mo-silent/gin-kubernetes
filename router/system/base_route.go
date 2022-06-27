@@ -21,5 +21,6 @@ func (b *Base) InitRouter(Router *gin.RouterGroup) {
 	{
 		baseGroup.POST("login", baseApi.Login)     // 用户登录
 		baseGroup.POST("captcha", baseApi.Captcha) // 用户验证码
+		baseGroup.POST("initdata", baseApi.InitData)
 	}
 }

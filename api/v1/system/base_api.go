@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"gitee.com/MoGD/gin-kubernetes/conf"
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/model/common/response"
 	"gitee.com/MoGD/gin-kubernetes/model/system"
@@ -20,6 +21,7 @@ import (
 type BaseInterface interface {
 	Login(c *gin.Context)
 	Captcha(c *gin.Context)
+	InitData(c *gin.Context)
 }
 
 // ApiV1Base api v1 base struct
@@ -123,4 +125,37 @@ func (b *ApiV1Base) Captcha(c *gin.Context) {
 		Msg:  "验证码获取成功",
 	})
 
+}
+
+// Captcha generate a verification code
+// @Tags Base
+// @Summary 生成验证码,返回包括随机数id,base64,验证码长度
+// @accept application/json
+// @Produce application/json
+// @Param data body conf.Mysql true "初始化数据库参数"
+// @Success 200 {object} response.CommonResponse
+// @Router /base/initdata [post]
+func (b *ApiV1Base) InitData(c *gin.Context) {
+	// if global.DB != nil {
+	// 	c.JSON(http.StatusOK, response.CommonResponse{
+	// 		Msg: "已经存在数据库配置",
+	// 	})
+	// 	return
+	// }
+	var dbInfo conf.Mysql
+	if err := c.ShouldBindJSON(&dbInfo); err != nil {
+		c.JSON(http.StatusBadRequest, response.CommonResponse{
+			Msg: "参数校验不通过",
+		})
+		return
+	}
+	if err := service.InitData(global.DB); err != nil {
+		c.JSON(http.StatusBadRequest, response.CommonResponse{
+			Msg: "初始化数据失败",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, response.CommonResponse{
+		Msg: "数据初始化成功",
+	})
 }

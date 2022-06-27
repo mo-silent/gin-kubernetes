@@ -5,6 +5,7 @@ import (
 
 	"gitee.com/MoGD/gin-kubernetes/global"
 	"gitee.com/MoGD/gin-kubernetes/model/system"
+	adapter "github.com/casbin/gorm-adapter/v3"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -26,8 +27,12 @@ func InitDB() *gorm.DB {
 
 // RegisterTable 注册数据表
 func RegisterTable(db *gorm.DB) {
-	err := db.AutoMigrate(&system.User{})
+	err := db.AutoMigrate(
+		&system.User{},
+		&adapter.CasbinRule{},
+	)
 	if err != nil {
 		fmt.Printf("error: %v, register table failed\n", err)
+		return
 	}
 }

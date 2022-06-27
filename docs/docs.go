@@ -38,6 +38,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/base/initdata": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Base"
+                ],
+                "summary": "生成验证码,返回包括随机数id,base64,验证码长度",
+                "parameters": [
+                    {
+                        "description": "初始化数据库参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/conf.Mysql"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CommonResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/base/login": {
             "post": {
                 "produces": [
@@ -721,6 +754,35 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "conf.Mysql": {
+            "type": "object",
+            "properties": {
+                "config": {
+                    "description": "数据库连接参数",
+                    "type": "string"
+                },
+                "db-name": {
+                    "description": "数据库名称",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "数据库路径",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "数据库端口",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
         "request.DeployUpdateMessage": {
             "type": "object",
             "properties": {
