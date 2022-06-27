@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -39,6 +40,12 @@ func main() {
 	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
 	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)
 
+	initRun()
+
+}
+
+// init route run init
+func initRun() {
 	// 初始化路由
 	router := initialize.InitRouters()
 	// Custom HTTP configuration
@@ -49,6 +56,12 @@ func main() {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	// custom defined print
+	fmt.Printf(`
+	欢迎使用 gin-kubernetes
+	当前版本:1.0.0beta
+	默认自动化文档地址:http://127.0.0.1%s/swagger/index.html
+`, global.CONFIG.System.Addr)
 	// server start to listen
 	err := s.ListenAndServe()
 	if err != nil {

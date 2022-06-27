@@ -50,12 +50,12 @@ func (b *ApiV1Base) Login(c *gin.Context) {
 	var user request.Login
 	_ = c.ShouldBindJSON(&user)
 
-	// if !store.Verify(user.CaptchaId, user.CaptchaValue, true) {
-	// 	c.JSON(http.StatusBadRequest, response.CommonResponse{
-	// 		Msg: "验证码错误",
-	// 	})
-	// 	return
-	// }
+	if !store.Verify(user.CaptchaId, user.CaptchaValue, true) {
+		c.JSON(http.StatusBadRequest, response.CommonResponse{
+			Msg: "验证码错误",
+		})
+		return
+	}
 
 	var userRes system.User
 
