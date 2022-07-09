@@ -2,8 +2,8 @@ package system
 
 import "github.com/gin-gonic/gin"
 
-// SystemCommonInterface system common interface, define unified method
-type SystemCommonInterface interface {
+// ApiV1SystemInterface system common interface, define unified method
+type ApiV1SystemInterface interface {
 	Create(c *gin.Context)
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
@@ -11,8 +11,8 @@ type SystemCommonInterface interface {
 	List(c *gin.Context)
 }
 
-// SystemInterface system interface, all system-relatea method calls
-type SystemInterface interface {
+// ApiV1SystemEnterInterface system interface, all system-relate method calls
+type ApiV1SystemEnterInterface interface {
 	UserGetter
 	BaseGetter
 }
@@ -21,7 +21,7 @@ type SystemInterface interface {
 type ApiV1SystemEnter struct{}
 
 // User return user api struct
-func (s *ApiV1SystemEnter) User() SystemCommonInterface {
+func (s *ApiV1SystemEnter) User() ApiV1SystemInterface {
 	return newUsers()
 }
 

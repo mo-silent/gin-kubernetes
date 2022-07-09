@@ -8,7 +8,7 @@ import (
 type User struct{}
 
 type UserGetter interface {
-	User() SystemRouterInterface
+	User() RouterSystemInterface
 }
 
 func newUsers() *User {

@@ -2,32 +2,32 @@ package k8s
 
 import "github.com/gin-gonic/gin"
 
-// K8SRouterInterface k8s generic router function
-type K8SRouterInterface interface {
+// RouterK8SInterface k8s generic router function
+type RouterK8SInterface interface {
 	InitRouter(Router *gin.RouterGroup)
 }
 
-// K8SRouterGroupInterface k8s router unified entrance
-type K8SRouterGroupInterface interface {
+// RouterK8SGroupInterface k8s router unified entrance
+type RouterK8SGroupInterface interface {
 	PodGetter
 	DeploymentGetter
 	NamespaceGetter
 }
 
-type K8SRouter struct {
+type RouterK8S struct {
 }
 
-// Depolyment return deployment router instance
-func (r *K8SRouter) Depolyment() K8SRouterInterface {
+// Deployment Deployment return deployment router instance
+func (r *RouterK8S) Deployment() RouterK8SInterface {
 	return newDeployments()
 }
 
 // Pod return pod router instance
-func (r *K8SRouter) Pod() K8SRouterInterface {
+func (r *RouterK8S) Pod() RouterK8SInterface {
 	return newPods()
 }
 
 // Namespace return namespace router instance
-func (r *K8SRouter) Namespace() K8SRouterInterface {
+func (r *RouterK8S) Namespace() RouterK8SInterface {
 	return newNamespace()
 }

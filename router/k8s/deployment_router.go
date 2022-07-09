@@ -7,9 +7,9 @@ import (
 
 type DeploymentRouter struct{}
 
-// DeploymentGetter depolyment router enter
+// DeploymentGetter deployment router enter
 type DeploymentGetter interface {
-	Depolyment() K8SRouterInterface
+	Deployment() RouterK8SInterface
 }
 
 // newDeployments return deployment router instance
@@ -17,7 +17,7 @@ func newDeployments() *DeploymentRouter {
 	return &DeploymentRouter{}
 }
 
-// InitDeploymentRouter 初始化 deployment 路由
+// InitRouter InitDeploymentRouter init deployment router
 func (deploy *DeploymentRouter) InitRouter(Router *gin.RouterGroup) {
 	deploymentGroup := Router.Group("deployment")
 	deploymentApi := v1.ApiV1Enter().ApiV1K8S().Deployment()

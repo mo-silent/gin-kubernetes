@@ -9,7 +9,7 @@ type NamespaceRouter struct{}
 
 // NamespaceGetter namespace router enter
 type NamespaceGetter interface {
-	Namespace() K8SRouterInterface
+	Namespace() RouterK8SInterface
 }
 
 // newNamespace return new namespace instance
@@ -17,7 +17,7 @@ func newNamespace() *NamespaceRouter {
 	return &NamespaceRouter{}
 }
 
-// InitNamespaceRouter 初始化 namespace 路由
+// InitRouter InitNamespaceRouter init namespace router
 func (p *NamespaceRouter) InitRouter(Router *gin.RouterGroup) {
 	namespaceGroup := Router.Group("namespace")
 	namespaceApi := v1.ApiV1Enter().ApiV1K8S().Namespace()

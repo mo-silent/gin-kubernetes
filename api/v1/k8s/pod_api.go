@@ -18,7 +18,7 @@ import (
 
 // PodGetter getter interface
 type PodGetter interface {
-	Pod() K8SCommonInterface
+	Pod() ApiV1K8sInterface
 }
 
 // PodApi pod api enter
@@ -29,7 +29,7 @@ func newPods() *PodApi {
 	return &PodApi{}
 }
 
-// Create create pod
+// Create pod
 // @Tags Pod
 // @Summary 创建 Pod
 // @Security ApiKeyAuth

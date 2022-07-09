@@ -5,7 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f680f7b0-a74d-477b-8600-d44413979966" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/MGD.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/deployment_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/deployment_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/namespace_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/namespace_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/pod_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/pod_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/system/base_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/system/base_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/system/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/system/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/system/user_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/system/user_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/conf/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/k8s/deployment_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/k8s/deployment_router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/k8s/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/k8s/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/k8s/namespace_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/k8s/namespace_router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/k8s/pod_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/k8s/pod_router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/system/base_route.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/system/base_route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/system/enter.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/system/enter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/system/user_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/system/user_router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/mysql.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,27 +60,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Go/src/gin-kubernetes&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "E:/Go/src/gin-kubernetes",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="k8s-client-go" />

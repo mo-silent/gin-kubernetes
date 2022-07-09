@@ -20,7 +20,7 @@ type ApiV1User struct{}
 
 // UserGetter user api enter
 type UserGetter interface {
-	User() SystemCommonInterface
+	User() ApiV1SystemInterface
 }
 
 // newUsers return user api struct

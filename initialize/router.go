@@ -15,8 +15,8 @@ import (
 // Return *gin.Engine
 func InitRouters() *gin.Engine {
 	Router := gin.Default()
-	k8sRouter := router.RouterGroupEnter().K8SRouters()
-	systemRouter := router.RouterGroupEnter().SystemRouters()
+	k8sRouter := router.EnterRouter().K8SRouters()
+	systemRouter := router.EnterRouter().SystemRouters()
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// cross-domain support
@@ -40,7 +40,7 @@ func InitRouters() *gin.Engine {
 	PrivateGroup := Router.Group("")
 	PrivateGroup.Use(middleware.JWTAuth()).Use(middleware.CasbinHandler())
 	{
-		k8sRouter.Depolyment().InitRouter(PrivateGroup) // 注册 pod 路由
+		k8sRouter.Deployment().InitRouter(PrivateGroup) // 注册 pod 路由
 		k8sRouter.Pod().InitRouter(PrivateGroup)        // 注册 deployment 路由
 		k8sRouter.Namespace().InitRouter(PrivateGroup)  // 注册 namespace 路由
 		systemRouter.User().InitRouter(PrivateGroup)    // 注册 user 路由

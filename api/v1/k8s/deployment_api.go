@@ -17,7 +17,7 @@ import (
 
 // DeploymentGetter getter deployment
 type DeploymentGetter interface {
-	Deployment() K8SCommonInterface
+	Deployment() ApiV1K8sInterface
 }
 
 // DeploymentApi deploy api enter

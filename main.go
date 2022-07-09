@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
@@ -33,7 +34,12 @@ func main() {
 		initialize.RegisterTable(global.DB)
 		// 程序结束前关闭数据库链接
 		db, _ := global.DB.DB()
-		defer db.Close()
+		defer func(db *sql.DB) {
+			err := db.Close()
+			if err != nil {
+
+			}
+		}(db)
 	}
 
 	// create the k8sClient

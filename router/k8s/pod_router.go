@@ -9,7 +9,7 @@ type PodRouter struct{}
 
 // PodGetter pod router enter
 type PodGetter interface {
-	Pod() K8SRouterInterface
+	Pod() RouterK8SInterface
 }
 
 // newPods return pod router instance
@@ -17,7 +17,7 @@ func newPods() *PodRouter {
 	return &PodRouter{}
 }
 
-// InitPodRouter 初始化 pod 路由
+// InitRouter InitPodRouter init pod router
 func (p *PodRouter) InitRouter(Router *gin.RouterGroup) {
 	podGroup := Router.Group("pod")
 	podApi := v1.ApiV1Enter().ApiV1K8S().Pod()

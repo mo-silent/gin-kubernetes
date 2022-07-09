@@ -2,8 +2,8 @@ package k8s
 
 import "github.com/gin-gonic/gin"
 
-// K8SCommonInterface k8s generic function definitions
-type K8SCommonInterface interface {
+// ApiV1K8sInterface k8s generic function definitions
+type ApiV1K8sInterface interface {
 	Create(c *gin.Context)
 	Delete(c *gin.Context)
 	Update(c *gin.Context)
@@ -11,8 +11,8 @@ type K8SCommonInterface interface {
 	List(c *gin.Context)
 }
 
-// K8SInterface k8s api unified entrance interface
-type K8SInterface interface {
+// ApiV1K8sEnter k8s api unified entrance interface
+type ApiV1K8sEnter interface {
 	PodGetter
 	DeploymentGetter
 	NamespaceGetter
@@ -22,16 +22,16 @@ type K8SInterface interface {
 type ApiV1K8SEnter struct {
 }
 
-// Depolyment return a DeploymentInterface
-func (g *ApiV1K8SEnter) Deployment() K8SCommonInterface {
+// Deployment Deployment return a DeploymentInterface
+func (g *ApiV1K8SEnter) Deployment() ApiV1K8sInterface {
 	return newDeployments()
 }
 
 // Pod return a PodInterface
-func (g *ApiV1K8SEnter) Pod() K8SCommonInterface {
+func (g *ApiV1K8SEnter) Pod() ApiV1K8sInterface {
 	return newPods()
 }
 
-func (g *ApiV1K8SEnter) Namespace() K8SCommonInterface {
+func (g *ApiV1K8SEnter) Namespace() ApiV1K8sInterface {
 	return newNamespace()
 }

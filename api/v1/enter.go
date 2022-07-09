@@ -7,8 +7,8 @@ import (
 
 // ApiV1Interface api v1 enter interface
 type ApiV1Interface interface {
-	ApiV1K8s() k8s.K8SInterface
-	ApiV1System() system.SystemInterface
+	ApiV1K8s() k8s.ApiV1K8sEnter
+	ApiV1System() system.ApiV1SystemEnterInterface
 }
 
 // ApiV1Unified api v1 enter
@@ -18,12 +18,12 @@ type ApiV1Unified struct {
 }
 
 // ApiV1K8S return k8s.ApiV1K8SEnter
-func (u *ApiV1Unified) ApiV1K8S() k8s.K8SInterface {
+func (u *ApiV1Unified) ApiV1K8S() k8s.ApiV1K8sEnter {
 	return u.ApiV1K8SEnter
 }
 
 // ApiV1System return system.ApiV1SystemEnter
-func (u *ApiV1Unified) ApiV1System() system.SystemInterface {
+func (u *ApiV1Unified) ApiV1System() system.ApiV1SystemEnterInterface {
 	return u.ApiV1SystemEnter
 }
 

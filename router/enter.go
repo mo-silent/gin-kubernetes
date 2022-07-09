@@ -5,28 +5,28 @@ import (
 	"gitee.com/MoGD/gin-kubernetes/router/system"
 )
 
-// RouterInterface router unified entrance
-type RouterInterface interface {
-	K8SRouters() k8s.K8SRouterGroupInterface
-	SystemRouters() system.SystemRouterGroupInterface
+// UnifiedRouterInterface router unified entrance
+type UnifiedRouterInterface interface {
+	K8SRouters() k8s.RouterK8SGroupInterface
+	SystemRouters() system.RouterSystemGroupInterface
 }
 
-type RouterGroup struct {
-	K8SRouter    *k8s.K8SRouter
-	SystemRouter *system.SystemRouter
+type EnterRouterGroup struct {
+	K8SRouter    *k8s.RouterK8S
+	SystemRouter *system.RouterSystem
 }
 
-// K8SRouter return k8s router enter instance
-func (r *RouterGroup) K8SRouters() k8s.K8SRouterGroupInterface {
+// K8SRouters K8SRouter return k8s router enter instance
+func (r *EnterRouterGroup) K8SRouters() k8s.RouterK8SGroupInterface {
 	return r.K8SRouter
 }
 
-// SystemRouter return system router enter instance
-func (r *RouterGroup) SystemRouters() system.SystemRouterGroupInterface {
+// SystemRouters SystemRouter return system router enter instance
+func (r *EnterRouterGroup) SystemRouters() system.RouterSystemGroupInterface {
 	return r.SystemRouter
 }
 
-// RouterGroupEnter return unified router instance
-func RouterGroupEnter() *RouterGroup {
-	return new(RouterGroup)
+// EnterRouter return unified router instance
+func EnterRouter() *EnterRouterGroup {
+	return new(EnterRouterGroup)
 }

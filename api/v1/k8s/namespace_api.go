@@ -15,7 +15,7 @@ import (
 
 // NamespaceGetter getter namespace
 type NamespaceGetter interface {
-	Namespace() K8SCommonInterface
+	Namespace() ApiV1K8sInterface
 }
 
 // NamespaceApi namespace api enter
@@ -89,32 +89,6 @@ func (deploy *NamespaceApi) Update(c *gin.Context) {
 	c.JSON(http.StatusForbidden, response.CommonResponse{
 		Msg: "Forbidden API",
 	})
-	// 获取更新信息
-	// oldName := c.Query("oldname")
-	// newName := c.Query("newname")
-
-	// namespacesClient := global.K8SCLIENT.CoreV1().Namespaces()
-	// retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-	// 	// Retrieve the latest version of Namespace before attempting update
-	// 	// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
-	// 	result, getErr := namespacesClient.Get(context.TODO(), oldName, metav1.GetOptions{})
-	// 	if getErr != nil {
-	// 		panic(fmt.Errorf("failed to get latest version of Namespace: %v", getErr))
-	// 	}
-
-	// 	result.Name = newName
-	// 	_, updateErr := namespacesClient.Update(context.TODO(), result, metav1.UpdateOptions{})
-	// 	return updateErr
-	// })
-	// if retryErr != nil {
-	// 	c.JSON(http.StatusForbidden, response.CommonResponse{
-	// 		Msg: fmt.Sprintf("update namespace %v to %v fail!", oldName, retryErr),
-	// 	})
-	// 	return
-	// }
-	// c.JSON(http.StatusOK, response.CommonResponse{
-	// 	Msg: fmt.Sprintf("Updated namespace %v to %v...", oldName, newName),
-	// })
 
 }
 

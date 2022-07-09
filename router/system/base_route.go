@@ -8,7 +8,7 @@ import (
 type Base struct{}
 
 type BaseGetter interface {
-	Base() SystemRouterInterface
+	Base() RouterSystemInterface
 }
 
 func newBases() *Base {
