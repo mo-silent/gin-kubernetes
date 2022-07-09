@@ -127,9 +127,9 @@ func (b *ApiV1Base) Captcha(c *gin.Context) {
 
 }
 
-// Captcha generate a verification code
+// InitData init database
 // @Tags Base
-// @Summary 生成验证码,返回包括随机数id,base64,验证码长度
+// @Summary 初始化数据库
 // @accept application/json
 // @Produce application/json
 // @Param data body conf.Mysql true "初始化数据库参数"

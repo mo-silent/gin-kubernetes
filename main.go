@@ -43,8 +43,8 @@ func main() {
 	}
 
 	// create the k8sClient
-	// global.K8SCLIENT = initialize.InitK8sClient(global.KUBECONFIG)
-	// global.DynamicK8SCLIENT = initialize.InitDynamicK8sClient(global.KUBECONFIG)
+	global.K8sClint = initialize.InitK8sClient()
+	// global.DynamicK8sClient = initialize.InitDynamicK8sClient()
 
 	initRun()
 

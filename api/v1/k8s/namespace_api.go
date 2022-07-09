@@ -41,7 +41,7 @@ func (deploy *NamespaceApi) Create(c *gin.Context) {
 			Name: name,
 		},
 	}
-	_, err := global.K8SCLIENT.CoreV1().Namespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
+	_, err := global.K8sClint.CoreV1().Namespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "create namespace fail!",
@@ -70,8 +70,8 @@ func (deploy *NamespaceApi) Delete(c *gin.Context) {
 		PropagationPolicy: &deletePolicy,
 	}
 
-	// err := global.DynamicK8SCLIENT.Resource(NamespaceRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
-	if err := global.K8SCLIENT.CoreV1().Namespaces().Delete(context.TODO(), name, deleteOptions); err != nil {
+	// err := global.DynamicK8sClient.Resource(NamespaceRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
+	if err := global.K8sClint.CoreV1().Namespaces().Delete(context.TODO(), name, deleteOptions); err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: fmt.Sprintf("delete namespace %v fail!", name),
 		})
@@ -104,7 +104,7 @@ func (deploy *NamespaceApi) Get(c *gin.Context) {
 	// 获取 namespace 名称
 	name := c.Query("name")
 
-	result, err := global.K8SCLIENT.CoreV1().Namespaces().Get(context.TODO(), name, metav1.GetOptions{})
+	result, err := global.K8sClint.CoreV1().Namespaces().Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: fmt.Sprintf("get namespace %v fail!", name),
@@ -126,7 +126,7 @@ func (deploy *NamespaceApi) Get(c *gin.Context) {
 // @Success 200 {object} response.CommonResponse
 // @Router /namespace/list [get]
 func (deploy *NamespaceApi) List(c *gin.Context) {
-	result, err := global.K8SCLIENT.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+	result, err := global.K8sClint.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "list all namespace fail!",

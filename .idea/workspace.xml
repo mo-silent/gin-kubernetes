@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="f680f7b0-a74d-477b-8600-d44413979966" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/system/base_route.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/system/base_route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/system/user_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/system/user_router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/deployment_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/deployment_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/namespace_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/namespace_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/k8s/pod_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/k8s/pod_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/system/base_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/system/base_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global/variable.go" beforeDir="false" afterPath="$PROJECT_DIR$/global/variable.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

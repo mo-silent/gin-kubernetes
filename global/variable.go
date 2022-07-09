@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	K8SCLIENT        *kubernetes.Clientset
-	DynamicK8SCLIENT dynamic.Interface
+	K8sClint         *kubernetes.Clientset
+	DynamicK8sClient dynamic.Interface
 	CONFIG           conf.Server
 	VP               *viper.Viper
 	DB               *gorm.DB

@@ -64,7 +64,7 @@ func (p *PodApi) Create(c *gin.Context) {
 		},
 	}
 	// 获取 pod 接口
-	podClient := global.K8SCLIENT.CoreV1().Pods(podReq.Namespace)
+	podClient := global.K8sClint.CoreV1().Pods(podReq.Namespace)
 	// 创建 Pod
 	_, err := podClient.Create(context.TODO(), pod, metav1.CreateOptions{})
 	if err != nil {
@@ -104,7 +104,7 @@ func (p *PodApi) Delete(c *gin.Context) {
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
 	// 获取 pod 接口
-	podClient := global.K8SCLIENT.CoreV1().Pods(namespace)
+	podClient := global.K8sClint.CoreV1().Pods(namespace)
 	// 删除 Pod
 	err := podClient.Delete(context.TODO(), name, metav1.DeleteOptions{})
 	if err != nil {
@@ -134,7 +134,7 @@ func (p *PodApi) Update(c *gin.Context) {
 	var updateMessage request.PodUpdateMessage
 	_ = c.ShouldBindJSON(&updateMessage)
 
-	podClient := global.K8SCLIENT.CoreV1().Pods(updateMessage.Namespace)
+	podClient := global.K8sClint.CoreV1().Pods(updateMessage.Namespace)
 
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		pods, err := podClient.Get(context.TODO(), updateMessage.Name, metav1.GetOptions{})
@@ -180,7 +180,7 @@ func (p *PodApi) Get(c *gin.Context) {
 		namespace = "default"
 	}
 	// list one pod
-	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+	pods, err := global.K8sClint.CoreV1().Pods(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "get pod fail!",
@@ -210,7 +210,7 @@ func (p *PodApi) List(c *gin.Context) {
 		namespace = "default"
 	}
 	// list pod
-	pods, err := global.K8SCLIENT.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
+	pods, err := global.K8sClint.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "list namespace: " + namespace + " pod fail!",
@@ -232,7 +232,7 @@ func (p *PodApi) List(c *gin.Context) {
 // // @Router /pod/listAllPod [get]
 // func (p *PodApi) ListAllPod(c *gin.Context) {
 // 	// list pod
-// 	pods, err := global.K8SCLIENT.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+// 	pods, err := global.K8sClint.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
 // 	if err != nil {
 // 		c.JSON(http.StatusForbidden, response.CommonResponse{
 // 			Msg: "list all pod fail!",

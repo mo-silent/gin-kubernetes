@@ -82,7 +82,7 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 		},
 	}
 	var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
-	result, err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
+	result, err := global.DynamicK8sClient.Resource(DeploymentRes).Namespace(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "Created deployment fail!",
@@ -114,8 +114,8 @@ func (deploy *DeploymentApi) Delete(c *gin.Context) {
 		PropagationPolicy: &deletePolicy,
 	}
 
-	// err := global.DynamicK8SCLIENT.Resource(DeploymentRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
-	if err := global.K8SCLIENT.AppsV1().Deployments(namespace).Delete(context.TODO(), name, deleteOptions); err != nil {
+	// err := global.DynamicK8sClient.Resource(DeploymentRes).Namespace(namespace).Delete(context.TODO(), name, deleteOptions)
+	if err := global.K8sClint.AppsV1().Deployments(namespace).Delete(context.TODO(), name, deleteOptions); err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: fmt.Sprintf("delete namespace %v deployment %v fail!", namespace, name),
 		})
@@ -140,7 +140,7 @@ func (deploy *DeploymentApi) Update(c *gin.Context) {
 	// 获取更新信息
 	var updateMessage request.DeployUpdateMessage
 	_ = c.ShouldBindJSON(&updateMessage)
-	deploymentsClient := global.K8SCLIENT.AppsV1().Deployments(updateMessage.Namespace)
+	deploymentsClient := global.K8sClint.AppsV1().Deployments(updateMessage.Namespace)
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		// Retrieve the latest version of Deployment before attempting update
 		// RetryOnConflict uses exponential backoff to avoid exhausting the apiserver
@@ -180,7 +180,7 @@ func (deploy *DeploymentApi) Get(c *gin.Context) {
 	namespace := c.DefaultQuery("namespace", "default")
 	name := c.Query("name")
 
-	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+	result, err := global.K8sClint.AppsV1().Deployments(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: fmt.Sprintf("get namespace %v deployment %v fail!", namespace, name),
@@ -206,7 +206,7 @@ func (deploy *DeploymentApi) List(c *gin.Context) {
 	// 获取命名空间
 	namespace := c.DefaultQuery("namespace", "default")
 
-	result, err := global.K8SCLIENT.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
+	result, err := global.K8sClint.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: fmt.Sprintf("list namespace %v deployment fail!", namespace),
