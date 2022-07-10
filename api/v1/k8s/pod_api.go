@@ -74,16 +74,6 @@ func (p *PodApi) Create(c *gin.Context) {
 		return
 		// panic(err.Error())
 	}
-	// 循环获取 pod 状态，检查为 Running 状态后，返回 pod 信息
-	// for {
-	// 	podStatus, _ := podClient.Get(context.TODO(), "demo-pod", metav1.GetOptions{})
-	// 	if podStatus.Status.Phase == "Running" {
-	// 		c.JSON(http.StatusOK, response.CommonResponse{
-	// 			Msg: podStatus,
-	// 		})
-	// 		break
-	// 	}
-	// }
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Msg: "create pod interface call success! Please watch pod status until the status is running.",
 	})

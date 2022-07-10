@@ -6,7 +6,6 @@ require (
 	github.com/casbin/casbin/v2 v2.47.3
 	github.com/casbin/gorm-adapter/v3 v3.7.2
 	github.com/fsnotify/fsnotify v1.5.4
-	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/mojocn/base64Captcha v1.3.5

@@ -9,9 +9,9 @@ import (
 	"gitee.com/MoGD/gin-kubernetes/model/common/request"
 	"gitee.com/MoGD/gin-kubernetes/model/common/response"
 	"github.com/gin-gonic/gin"
+	appsv1 "k8s.io/api/apps/v1"
+	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/util/retry"
 )
 
@@ -41,38 +41,34 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 	var deployReq request.DeploymentRequest
 	_ = c.ShouldBindJSON(&deployReq)
 	fmt.Println(deployReq)
-	deployment := &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "apps/v1",
-			"kind":       "Deployment",
-			"metadata": map[string]interface{}{
-				"name": "demo-deployment",
+	rs := int32(2)
+	deployment := &appsv1.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "demo-deployment",
+		},
+		Spec: appsv1.DeploymentSpec{
+			Replicas: &rs,
+			Selector: &metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app": "demo",
+				},
 			},
-			"spec": map[string]interface{}{
-				"replicas": 2,
-				"selector": map[string]interface{}{
-					"matchLabels": map[string]interface{}{
+			Template: apiv1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Labels: map[string]string{
 						"app": "demo",
 					},
 				},
-				"template": map[string]interface{}{
-					"metadata": map[string]interface{}{
-						"labels": map[string]interface{}{
-							"app": "demo",
-						},
-					},
-
-					"spec": map[string]interface{}{
-						"containers": []map[string]interface{}{
-							{
-								"name":  "web",
-								"image": "nginx:1.12",
-								"ports": []map[string]interface{}{
-									{
-										"name":          "http",
-										"protocol":      "TCP",
-										"containerPort": 80,
-									},
+				Spec: apiv1.PodSpec{
+					Containers: []apiv1.Container{
+						{
+							Name:  "web",
+							Image: "nginx:1.12",
+							Ports: []apiv1.ContainerPort{
+								{
+									Name:          "http",
+									Protocol:      apiv1.ProtocolTCP,
+									ContainerPort: 80,
 								},
 							},
 						},
@@ -81,8 +77,7 @@ func (deploy *DeploymentApi) Create(c *gin.Context) {
 			},
 		},
 	}
-	var DeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
-	result, err := global.DynamicK8sClient.Resource(DeploymentRes).Namespace(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
+	result, err := global.K8sClint.AppsV1().Deployments(deployReq.Namespace).Create(context.TODO(), deployment, metav1.CreateOptions{})
 	if err != nil {
 		c.JSON(http.StatusForbidden, response.CommonResponse{
 			Msg: "Created deployment fail!",
@@ -189,7 +184,8 @@ func (deploy *DeploymentApi) Get(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, response.CommonResponse{
-		Msg: fmt.Sprintf("get deployment %v, value %v", name, result),
+		Data: result,
+		Msg:  fmt.Sprintf("get deployment %v success", name),
 	})
 
 }
@@ -215,6 +211,7 @@ func (deploy *DeploymentApi) List(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response.CommonResponse{
 		Data: result,
+		Msg:  fmt.Sprintf("list namespace %v deployment success", namespace),
 	})
 
 }
